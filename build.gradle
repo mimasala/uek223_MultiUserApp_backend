@@ -47,6 +47,7 @@ dependencies {
 	testImplementation "com.h2database:h2:1.4.200"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	implementation 'com.tngtech.archunit:archunit:1.0.1'
 }
 
 test {
