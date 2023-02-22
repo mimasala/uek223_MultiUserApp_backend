@@ -1,8 +1,10 @@
 package com.example.demo.core.security;
 
 import com.example.demo.core.security.helpers.JwtProperties;
-import com.example.demo.domain.user.UserService;
+import com.example.demo.domain.user.command.UserCommandService;
 import java.util.List;
+
+import com.example.demo.domain.user.query.UserQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,13 +27,15 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
-  private final UserService userService;
+  private final UserCommandService userCommandService;
+  private final UserQueryService userQueryService;
   private final PasswordEncoder passwordEncoder;
   private final JwtProperties jwtProperties;
 
   @Autowired
-  public WebSecurityConfig(UserService userService, PasswordEncoder passwordEncoder, JwtProperties jwtProperties) {
-    this.userService = userService;
+  public WebSecurityConfig(UserCommandService userCommandService, UserQueryService userQueryService, PasswordEncoder passwordEncoder, JwtProperties jwtProperties) {
+    this.userCommandService = userCommandService;
+    this.userQueryService = userQueryService;
     this.passwordEncoder = passwordEncoder;
     this.jwtProperties = jwtProperties;
   }
@@ -44,7 +48,7 @@ public class WebSecurityConfig {
                             .anyRequest().authenticated())
                .addFilterAfter(new JWTAuthenticationFilter(new AntPathRequestMatcher("/user/login", "POST"),
                    authenticationManager(), jwtProperties), UsernamePasswordAuthenticationFilter.class)
-               .addFilterAfter(new JWTAuthorizationFilter(userService, jwtProperties),
+               .addFilterAfter(new JWTAuthorizationFilter(userCommandService, userQueryService, jwtProperties),
                    UsernamePasswordAuthenticationFilter.class)
                .sessionManagement()
                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -73,7 +77,7 @@ public class WebSecurityConfig {
   public AuthenticationManager authenticationManager() {
     DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
     provider.setPasswordEncoder(passwordEncoder);
-    provider.setUserDetailsService(userService);
+    provider.setUserDetailsService(userQueryService);
     return new ProviderManager(provider);
   }
 

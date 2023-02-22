@@ -7,36 +7,12 @@ import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public abstract class AbstractServiceImpl<T extends AbstractEntity> implements AbstractService<T> {
+public abstract class AbstractQueryServiceImpl<T extends AbstractEntity> implements AbstractQueryService<T> {
 
   protected final AbstractRepository<T> repository;
 
-  protected AbstractServiceImpl(AbstractRepository<T> repository) {
+  protected AbstractQueryServiceImpl(AbstractRepository<T> repository) {
     this.repository = repository;
-  }
-
-  @Override
-  public T save(T entity) {
-    return repository.save(entity);
-  }
-
-  @Override
-  public void deleteById(UUID id) throws NoSuchElementException {
-    if (repository.existsById(id)) {
-      repository.deleteById(id);
-    } else {
-      throw new NoSuchElementException(String.format("Entity with ID '%s' could not be found", id));
-    }
-  }
-
-  @Override
-  public T updateById(UUID id, T entity) throws NoSuchElementException {
-    if (repository.existsById(id)) {
-      entity.setId(id);
-      return repository.save(entity);
-    } else {
-      throw new NoSuchElementException(String.format("Entity with ID '%s' could not be found", id));
-    }
   }
 
   @Override
@@ -59,6 +35,5 @@ public abstract class AbstractServiceImpl<T extends AbstractEntity> implements A
   public boolean existsById(UUID id) {
     return repository.existsById(id);
   }
-
 
 }

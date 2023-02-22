@@ -3,7 +3,8 @@ package com.example.demo.core.security;
 import com.example.demo.core.security.helpers.AuthorizationSchemas;
 import com.example.demo.core.security.helpers.JwtProperties;
 import com.example.demo.domain.user.UserDetailsImpl;
-import com.example.demo.domain.user.UserService;
+import com.example.demo.domain.user.command.UserCommandService;
+import com.example.demo.domain.user.query.UserQueryService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -21,12 +22,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
-  private final UserService userService;
+  private final UserCommandService userCommandService;
+  private final UserQueryService userQueryService;
   private final JwtProperties jwtProperties;
 
-  public JWTAuthorizationFilter(UserService userService, JwtProperties jwtProperties) {
-    this.userService = userService;
+  public JWTAuthorizationFilter(UserCommandService userCommandService, UserQueryService userQueryService, JwtProperties jwtProperties) {
+    this.userCommandService = userCommandService;
     this.jwtProperties = jwtProperties;
+    this.userQueryService = userQueryService;
   }
 
   private String resolveToken(String token) {
@@ -48,7 +51,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
       throws ServletException, IOException {
     try {
       String authToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-      UserDetails userDetails = new UserDetailsImpl(userService.findById(UUID.fromString(resolveToken(authToken))));
+      UserDetails userDetails = new UserDetailsImpl(userQueryService.findById(UUID.fromString(resolveToken(authToken))));
       SecurityContextHolder.getContext()
                            .setAuthentication(new UsernamePasswordAuthenticationToken(userDetails, null,
                                userDetails.getAuthorities()));

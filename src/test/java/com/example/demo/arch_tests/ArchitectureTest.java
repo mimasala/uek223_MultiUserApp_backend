@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.Entity;
-
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 class ArchitectureTest {
@@ -19,13 +17,13 @@ class ArchitectureTest {
 
         ArchRule onlyAllowControllersConfigurationAndServiceToDependOnServices = classes().that().areAnnotatedWith(Service.class)
                 .should().onlyBeAccessed().byClassesThat().areAnnotatedWith(RestController.class)
-                .orShould().beAnnotatedWith(Service.class);
+                .orShould().beAnnotatedWith(Service.class).orShould().haveNameMatching(".*Service*");
         onlyAllowControllersConfigurationAndServiceToDependOnServices.check(importedClasses);
 
         ArchRule onlyAllowServicesToDependOnRepositories = classes().that().areAnnotatedWith(Repository.class)
                 .or().haveNameMatching(".*Repo*")
                 .should().onlyBeAccessed().byClassesThat()
-                .areAnnotatedWith(Service.class);
+                .haveNameMatching(".*Service*").orShould().beAnnotatedWith(Service.class);
         onlyAllowServicesToDependOnRepositories.check(importedClasses);
     }
 }

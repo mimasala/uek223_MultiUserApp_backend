@@ -1,9 +1,10 @@
-package com.example.demo.domain.user;
+package com.example.demo.domain.user.command;
 
-import com.example.demo.core.generic.AbstractServiceImpl;
+import com.example.demo.core.generic.AbstractCommandServiceImpl;
+import com.example.demo.core.generic.AbstractQueryServiceImpl;
+import com.example.demo.domain.user.User;
+import com.example.demo.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
@@ -12,22 +13,16 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @Service
-public class UserServiceImpl extends AbstractServiceImpl<User> implements UserService {
+public class UserCommandServiceImpl extends AbstractCommandServiceImpl<User> implements UserCommandService {
 
   private final PasswordEncoder passwordEncoder;
 
   @Autowired
-  public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder) {
+  public UserCommandServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder) {
     super(repository);
     this.passwordEncoder = passwordEncoder;
   }
 
-  @Override
-  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    return ((UserRepository) repository).findByEmail(email)
-                                        .map(UserDetailsImpl::new)
-                                        .orElseThrow(() -> new UsernameNotFoundException(email));
-  }
 
   @Override
   public User register(User user) {
