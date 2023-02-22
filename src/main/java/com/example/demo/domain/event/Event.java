@@ -1,6 +1,7 @@
 package com.example.demo.domain.event;
 
 import com.example.demo.core.generic.AbstractEntity;
+import com.example.demo.domain.eventUser.EventUser;
 import com.example.demo.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,8 +20,8 @@ import java.util.Set;
 @Entity
 public class Event extends AbstractEntity {
     private String eventName;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<User> eventParticipants;
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<EventUser> eventParticipants;
     private Integer participantsLimit;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
