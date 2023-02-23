@@ -9,10 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.chrono.ChronoLocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.TimeZone;
 import java.util.UUID;
 
 @Service
@@ -36,7 +34,7 @@ public class EventUserQueryService extends AbstractQueryServiceImpl<EventUser> {
         return getAllEventsOfUser(userId)
                 .stream()
                 .filter(event -> event.getStartDate()
-                        .isAfter(LocalDateTime.ofEpochSecond(event_start.orElse(0), 0, ZoneOffset.of("CET"))))
+                        .isAfter(LocalDateTime.ofEpochSecond(event_start.orElse(0), 0, ZoneOffset.of("+1"))))
                 .toList();
     }
 }

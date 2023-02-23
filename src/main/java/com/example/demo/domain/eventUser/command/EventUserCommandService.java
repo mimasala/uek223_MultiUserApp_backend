@@ -9,6 +9,7 @@ import com.example.demo.domain.eventUser.EventUser;
 import com.example.demo.domain.eventUser.EventUserRepository;
 import com.example.demo.domain.user.User;
 import com.example.demo.domain.user.UserRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Log4j2
 public class EventUserCommandService extends AbstractCommandServiceImpl<EventUser> {
     private final UserRepository userRepository;
     private final EventRepository eventRepository;
@@ -43,9 +45,9 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
         Optional<User> user = userRepository.findById(userId);
         Optional<Event> event = eventRepository.findById(eventId);
 
-        boolean isEntitiesFound = areEventAndUserNotFound(event, user);
+        boolean areEntitiesNotFound = areEventAndUserNotFound(event, user);
 
-        if (!isEntitiesFound) {
+        if (areEntitiesNotFound) {
             return HttpStatus.NOT_FOUND;
         }
 
@@ -55,25 +57,25 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
     boolean areEventAndUserNotFound(Optional<Event> event, Optional<User> user) {
         return user.isEmpty() || event.isEmpty();
     }
-    StatusOr<EventUser> getEventUserIfValid(Optional<Event> event, Optional<User> user) {
+    HttpStatus getEventUserStatus(Optional<Event> event, Optional<User> user) {
         if (areEventAndUserNotFound(event, user)) {
-            return new StatusOr<>(HttpStatus.NOT_FOUND);
+            return HttpStatus.NOT_FOUND;
         }
 
         if (!eventQueryService.hasCapacityLeftForEnrollment(event.get())) {
-            return new StatusOr<>(HttpStatus.TOO_MANY_REQUESTS);
+            return HttpStatus.TOO_MANY_REQUESTS;
         }
-        return new StatusOr<>(HttpStatus.OK);
+        return HttpStatus.OK;
     }
 
     StatusOr<EventUser> registerUserForEvent(UUID userId, UUID eventId) {
         Optional<User> user = userRepository.findById(userId);
         Optional<Event> event = eventRepository.findById(eventId);
 
-        StatusOr<EventUser> validationStatus = getEventUserIfValid(event, user);
+        HttpStatus validationStatus = getEventUserStatus(event, user);
 
-        if( !validationStatus.isOk() ) {
-            return validationStatus;
+        if(validationStatus.isError()) {
+            return new StatusOr<EventUser>(validationStatus);
         }
 
         EventUser eventUser = new EventUser(user.get(), event.get());
@@ -91,7 +93,7 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
                 return "Unknown error - most likely, the to-delete entity was not found.";
             }
             case NOT_FOUND -> {
-                return "Either the user or the have not been found.";
+                return "Either the user or the event have not been found.";
             }
         }
         return "Can't create error message - HttpStatus is not known";
@@ -105,7 +107,7 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
                 return "The number of participants for the have been succeeded.";
             }
             case NOT_FOUND -> {
-                return "Either the user or the have not been found.";
+                return "Either the user or the event have not been found.";
             }
         }
         return "Can't create error message - HttpStatus is not known";

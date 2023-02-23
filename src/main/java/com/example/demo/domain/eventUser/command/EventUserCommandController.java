@@ -1,15 +1,19 @@
 package com.example.demo.domain.eventUser.command;
 
+import com.example.demo.core.adapter.LocalDateTimeAdapter;
 import com.example.demo.core.exception.NotCheckedException;
 import com.example.demo.core.generic.StatusOr;
 import com.example.demo.domain.eventUser.EventUser;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Validated
@@ -34,9 +38,15 @@ public class EventUserCommandController {
                     .body(eventUserCommandService.getMessageForEventRegistration(eventRegistration.getStatus()));
         }
 
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .create();
+
         return ResponseEntity
                 .status(eventRegistration.getStatus())
-                .body(new Gson().toJson(eventRegistration.getItem()));
+                .header(HttpHeaders.CONTENT_TYPE, "application/json")
+                .body(gson.toJson(eventRegistration.getItem()));
     }
 
     @DeleteMapping
@@ -45,6 +55,7 @@ public class EventUserCommandController {
         HttpStatus status = eventUserCommandService.deleteUserFromEvent(userId, eventId);
 
         return ResponseEntity.status(status)
+                .header(HttpHeaders.CONTENT_TYPE, "application/json")
                 .body(eventUserCommandService.getMessageForUserEventDeletion(status));
     }
 }
