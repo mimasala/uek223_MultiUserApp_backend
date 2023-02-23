@@ -29,6 +29,7 @@ public class EventQueryController {
     public ResponseEntity<List<EventDTO>> getEvents() {
         return ResponseEntity.ok().body(eventMapper.toDTOs(eventQueryService.getEvents()));
     }
+
     @GetMapping("/{id}")
     @Operation(summary = "Get event by id")
     public ResponseEntity<EventDTO> getEvent(@PathVariable UUID id) {
