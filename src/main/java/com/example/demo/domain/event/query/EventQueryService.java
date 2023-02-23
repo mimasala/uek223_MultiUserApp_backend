@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.Optional;
 
 @Service
 public class EventQueryService extends AbstractQueryServiceImpl<Event> {
@@ -26,6 +25,6 @@ public class EventQueryService extends AbstractQueryServiceImpl<Event> {
     }
 
     public Event getEvent(UUID id) {
-        return ((EventRepository) repository).findById(id).orElseThrow(); //TODO: handle not found
+        return ((EventRepository) repository).findById(id).orElseThrow();
     }
 }
