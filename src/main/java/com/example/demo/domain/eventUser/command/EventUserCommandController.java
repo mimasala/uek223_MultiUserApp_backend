@@ -4,13 +4,11 @@ import com.example.demo.core.exception.NotCheckedException;
 import com.example.demo.core.generic.StatusOr;
 import com.example.demo.domain.eventUser.EventUser;
 import com.google.gson.Gson;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -33,7 +31,7 @@ public class EventUserCommandController {
         if(!eventRegistration.isOkAndPresent()) {
             return ResponseEntity
                     .status(eventRegistration.getStatus())
-                    .body(eventUserCommandService.getErrorMessageForEventRegistrationFailure(eventRegistration.getStatus()));
+                    .body(eventUserCommandService.getMessageForEventRegistration(eventRegistration.getStatus()));
         }
 
         return ResponseEntity
@@ -41,9 +39,12 @@ public class EventUserCommandController {
                 .body(new Gson().toJson(eventRegistration.getItem()));
     }
 
-//    @DeleteMapping
-//    public ResponseEntity<String> deleteUserFromEvent(@RequestParam("user_id") UUID userId,
-//                                                      @RequestParam("event_id") UUID eventId) {
-//        return ResponseEntity.ok();
-//    }
+    @DeleteMapping
+    public ResponseEntity<String> deleteUserFromEvent(@RequestParam("user_id") UUID userId,
+                                                      @RequestParam("event_id") UUID eventId) {
+        HttpStatus status = eventUserCommandService.deleteUserFromEvent(userId, eventId);
+
+        return ResponseEntity.status(status)
+                .body(eventUserCommandService.getMessageForUserEventDeletion(status));
+    }
 }

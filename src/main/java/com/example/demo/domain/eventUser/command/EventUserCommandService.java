@@ -32,8 +32,31 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
         this.eventQueryService = eventQueryService;
     }
 
+    HttpStatus convertNumberOfDeletedEntitiesToStatus(int numberOfEntities){
+        if(numberOfEntities == 0) {
+            return HttpStatus.BAD_REQUEST; // nothing was deleted, and we expect something to be deleted
+        }
+        return HttpStatus.OK;
+    }
+
+    HttpStatus deleteUserFromEvent(UUID userId, UUID eventId) {
+        Optional<User> user = userRepository.findById(userId);
+        Optional<Event> event = eventRepository.findById(eventId);
+
+        boolean isEntitiesFound = areEventAndUserNotFound(event, user);
+
+        if (!isEntitiesFound) {
+            return HttpStatus.NOT_FOUND;
+        }
+
+        int numberOfDeletedEntities = eventUserRepository.deleteByUserAndEvent(user.get(), event.get());
+        return convertNumberOfDeletedEntitiesToStatus(numberOfDeletedEntities);
+    }
+    boolean areEventAndUserNotFound(Optional<Event> event, Optional<User> user) {
+        return user.isEmpty() || event.isEmpty();
+    }
     StatusOr<EventUser> getEventUserIfValid(Optional<Event> event, Optional<User> user) {
-        if (user.isEmpty() || event.isEmpty()) {
+        if (areEventAndUserNotFound(event, user)) {
             return new StatusOr<>(HttpStatus.NOT_FOUND);
         }
 
@@ -59,7 +82,21 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
         return new StatusOr<>(eventUser);
     }
 
-    String getErrorMessageForEventRegistrationFailure(HttpStatus status) {
+    String getMessageForUserEventDeletion(HttpStatus status) {
+        if(!status.isError()) {
+            return "The request succeeded.";
+        }
+        switch (status) {
+            case BAD_REQUEST -> {
+                return "Unknown error - most likely, the to-delete entity was not found.";
+            }
+            case NOT_FOUND -> {
+                return "Either the user or the have not been found.";
+            }
+        }
+        return "Can't create error message - HttpStatus is not known";
+    }
+    String getMessageForEventRegistration(HttpStatus status) {
         if(!status.isError()) {
             return "The request succeeded.";
         }
