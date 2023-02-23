@@ -105,7 +105,15 @@ public class CustomGlobalExceptionHandler {
                               .setErrors(errors)
                               .build();
   }
-
+  @ExceptionHandler({EventNotFoundException.class})
+  @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public ResponseError handleEventNotFound(Throwable e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("event", e.getMessage());
+        return new ResponseError().setTimeStamp(LocalDate.now())
+                                .setErrors(errors)
+                                .build();
+    }
 }
 
 
