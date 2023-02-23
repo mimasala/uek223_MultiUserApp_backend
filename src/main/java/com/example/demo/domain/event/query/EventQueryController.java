@@ -5,12 +5,10 @@ import com.example.demo.domain.event.dto.EventMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -26,8 +24,8 @@ public class EventQueryController {
 
     @GetMapping()
     @Operation(summary = "Get all events")
-    public ResponseEntity<List<EventDTO>> getEvents() {
-        return ResponseEntity.ok().body(eventMapper.toDTOs(eventQueryService.getEvents()));
+    public ResponseEntity<List<EventDTO>> getEvents(@RequestParam(value = "user_id", required = false) Optional<UUID> userId) {
+        return ResponseEntity.ok().body(eventMapper.toDTOs(eventQueryService.getEvents(userId)));
     }
 
     @GetMapping("/{id}")
