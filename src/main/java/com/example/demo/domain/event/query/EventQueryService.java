@@ -1,6 +1,7 @@
 package com.example.demo.domain.event.query;
 
 
+import com.example.demo.core.exception.EventNotFoundException;
 import com.example.demo.core.generic.AbstractQueryServiceImpl;
 import com.example.demo.domain.event.Event;
 import com.example.demo.domain.event.EventRepository;
@@ -25,6 +26,6 @@ public class EventQueryService extends AbstractQueryServiceImpl<Event> {
     }
 
     public Event getEvent(UUID id) {
-        return ((EventRepository) repository).findById(id).orElseThrow();
+        return ((EventRepository) repository).findById(id).orElseThrow(() -> new EventNotFoundException("event with id: " + id + " not found"));
     }
 }
