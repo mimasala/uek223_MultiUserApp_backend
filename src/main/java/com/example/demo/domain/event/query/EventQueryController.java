@@ -22,7 +22,7 @@ public class EventQueryController {
         this.eventMapper = eventMapper;
     }
 
-    @GetMapping()
+    @GetMapping
     @Operation(summary = "Get all events")
     public ResponseEntity<List<EventDTO>> getEvents(@RequestParam(value = "user_id", required = false) Optional<UUID> userId) {
         return ResponseEntity.ok().body(eventMapper.toDTOs(eventQueryService.getEvents(userId)));
