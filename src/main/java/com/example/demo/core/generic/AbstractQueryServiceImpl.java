@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
+
+import com.example.demo.domain.eventUser.EventUserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

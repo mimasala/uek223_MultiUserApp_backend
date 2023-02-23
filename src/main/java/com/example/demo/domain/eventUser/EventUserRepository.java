@@ -5,5 +5,5 @@ import com.example.demo.domain.event.Event;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EventUserRepository extends AbstractRepository<Event> {
+public interface EventUserRepository extends AbstractRepository<EventUser> {
 }
