@@ -30,20 +30,12 @@ public class UserCommandController {
 
   private final UserCommandService userCommandService;
 
-  private final UserQueryService userQueryService;
   private final UserMapper userMapper;
 
   @Autowired
-  public UserCommandController(UserCommandService userCommandService, UserQueryService userQueryService, UserMapper userMapper) {
+  public UserCommandController(UserCommandService userCommandService, UserMapper userMapper) {
     this.userCommandService = userCommandService;
-    this.userQueryService = userQueryService;
     this.userMapper = userMapper;
-  }
-
-  @GetMapping({"", "/"})
-  public ResponseEntity<List<UserDTO>> retrieveAll() {
-    List<User> users = userQueryService.findAll();
-    return new ResponseEntity<>(userMapper.toDTOs(users), HttpStatus.OK);
   }
 
   @PostMapping("/register")
