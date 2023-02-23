@@ -35,6 +35,31 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+----
+
+### the create event endpoint
+
+```mermaid
+sequenceDiagram
+actor User
+User ->> EventCommandController : createEvent(EventDTO)
+activate EventCommandController
+EventCommandController ->> AbstractMapper : fromDTO(EventDTO)
+activate AbstractMapper
+AbstractMapper -->> EventCommandController : Event;
+deactivate AbstractMapper
+EventCommandController ->> EventCommandService : createEvent(Event)
+activate EventCommandService
+EventCommandService -->> EventCommandController : Event;
+deactivate EventCommandService
+EventCommandController ->> AbstractMapper : toDTO(Event)
+activate AbstractMapper
+AbstractMapper -->> EventCommandController : EventDTO;
+EventCommandController -->> User: EventDTO
+deactivate AbstractMapper
+deactivate EventCommandController
+```
+
 
 ----
 
