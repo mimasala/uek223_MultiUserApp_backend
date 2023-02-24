@@ -6,6 +6,11 @@ import org.springframework.http.HttpStatus;
 
 import java.util.Optional;
 
+/**
+ * This class is used to bundle the status of a service execution and an item together.
+ * 
+ * @param <T>
+ */
 public class StatusOr<T> {
     private final Optional<T> item;
 
