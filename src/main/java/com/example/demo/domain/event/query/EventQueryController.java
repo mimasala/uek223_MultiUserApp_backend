@@ -33,4 +33,10 @@ public class EventQueryController {
     public ResponseEntity<EventDTO> getEvent(@PathVariable UUID id) {
         return ResponseEntity.ok().body(eventMapper.toDTO(eventQueryService.getEvent(id)));
     }
+
+    @GetMapping("/pageCount/{pageLength}")
+    @Operation(summary = "Get number of pages for page length")
+    public ResponseEntity<Double> getPageCount(@PathVariable Integer pageLength) {
+        return ResponseEntity.ok().body(eventQueryService.getPageCount(pageLength));
+    }
 }
