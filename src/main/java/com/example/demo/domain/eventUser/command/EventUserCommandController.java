@@ -6,10 +6,12 @@ import com.example.demo.core.generic.StatusOr;
 import com.example.demo.domain.eventUser.EventUser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +30,8 @@ public class EventUserCommandController {
     }
 
     @PostMapping
+    @Operation(summary = "Create EventUser")
+    @PreAuthorize("hasRole('ADMIN') || @userPermissionEvaluator.isUser(authentication.principal.user, #userId)")
     public ResponseEntity<String> signUserUpForEvent(@RequestParam("user_id") UUID userId,
                                                      @RequestParam("event_id") UUID eventId) throws NotCheckedException {
         StatusOr<EventUser> eventRegistration = eventUserCommandService.registerUserForEvent(userId, eventId);
@@ -50,6 +54,8 @@ public class EventUserCommandController {
     }
 
     @DeleteMapping
+    @Operation(summary = "Delete EventUser")
+    @PreAuthorize("hasRole('ADMIN') || (@userPermissionEvaluator.isUser(authentication.principal.user, #userId) && @userPermissionEvaluator.isEventOwner(authentication.principal.user, #eventId))")
     public ResponseEntity<String> deleteUserFromEvent(@RequestParam("user_id") UUID userId,
                                                       @RequestParam("event_id") UUID eventId) {
         HttpStatus status = eventUserCommandService.deleteUserFromEvent(userId, eventId);

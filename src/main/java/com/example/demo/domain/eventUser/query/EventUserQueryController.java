@@ -3,8 +3,10 @@ package com.example.demo.domain.eventUser.query;
 import com.example.demo.domain.event.Event;
 import com.example.demo.domain.event.dto.EventDTO;
 import com.example.demo.domain.event.dto.EventMapper;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +29,8 @@ public class EventUserQueryController {
     }
 
     @GetMapping("/{userId}")
+    @Operation(summary = "Get Events for User")
+    @PreAuthorize("(hasAuthority('USER_READ') && @userPermissionEvaluator.isUser(authentication.principal.user, #userId)) || hasRole('ADMIN')")
     public ResponseEntity<List<EventDTO>> getAllEventsOfUser(@PathVariable("userId") UUID userId,
                                                              @RequestParam(value = "event_start", required = false) Optional<Integer> eventStart) {
         List<Event> eventsOfUser = eventUserQueryService.getAllEventsOfUser(userId, eventStart);

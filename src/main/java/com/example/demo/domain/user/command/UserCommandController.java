@@ -9,6 +9,7 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import com.example.demo.domain.user.query.UserQueryService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,7 @@ public class UserCommandController {
   }
 
   @PostMapping("/register")
+  @Operation(summary = "Register User")
   public ResponseEntity<UserDTO> register(@Valid @RequestBody UserRegisterDTO userRegisterDTO) {
     User user = userCommandService.register(userMapper.fromUserRegisterDTO(userRegisterDTO));
     return new ResponseEntity<>(userMapper.toDTO(user), HttpStatus.CREATED);
@@ -47,6 +49,7 @@ public class UserCommandController {
   @PutMapping("/{id}")
   @PreAuthorize(
       "hasAuthority('USER_MODIFY') && @userPermissionEvaluator.isUserAboveAge(authentication.principal.user,18)")
+  @Operation(summary = "Update User")
   public ResponseEntity<UserDTO> updateById(@PathVariable UUID id, @Valid @RequestBody UserDTO userDTO) {
     User user = userCommandService.updateById(id, userMapper.fromDTO(userDTO));
     return new ResponseEntity<>(userMapper.toDTO(user), HttpStatus.OK);
@@ -54,6 +57,7 @@ public class UserCommandController {
 
   @DeleteMapping("/{id}")
   @PreAuthorize("hasAuthority('USER_DELETE')")
+  @Operation(summary = "Delete User")
   public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
     userCommandService.deleteById(id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);

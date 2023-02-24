@@ -1,15 +1,12 @@
 package com.example.demo.domain.event.dto;
 
 import com.example.demo.core.generic.AbstractDTO;
-import com.example.demo.domain.eventUser.EventUser;
-import com.example.demo.domain.user.User;
 import com.example.demo.domain.user.dto.UserDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
