@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,7 +32,7 @@ public class EventQueryController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get event by id")
-    public ResponseEntity<EventDTO> getEvent(@PathVariable UUID id) {
-        return ResponseEntity.ok().body(eventMapper.toDTO(eventQueryService.getEvent(id)));
+    public ResponseEntity<EventDTO> getEvent(@PathVariable UUID id, Principal principal) throws IOException {
+        return ResponseEntity.ok().body(eventMapper.toDTO(eventQueryService.getEvent(id, principal.getName())));
     }
 }

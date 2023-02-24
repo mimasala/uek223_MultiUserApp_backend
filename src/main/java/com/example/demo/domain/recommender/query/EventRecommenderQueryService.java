@@ -5,6 +5,7 @@ import com.example.demo.domain.event.Event;
 import com.example.demo.domain.event.EventRepository;
 import com.example.demo.domain.eventUser.EventUserRepository;
 import com.example.demo.domain.recommender.EventRecommendation;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Log4j2
 public class EventRecommenderQueryService {
     private final EventRepository eventRepository;
 
@@ -34,6 +36,7 @@ public class EventRecommenderQueryService {
     }
 
     public List<EventRecommendation> getRecommendationForUser(String userId, int page, int pageLength) {
+        log.info("Getting recommendations for user: ");
         return eventRepository.findAll(PageRequest.of(page, pageLength))
                 .stream()
                 .map(event -> new EventRecommendation(

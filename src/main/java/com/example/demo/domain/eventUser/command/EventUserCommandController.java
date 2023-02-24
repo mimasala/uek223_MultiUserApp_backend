@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -33,7 +34,7 @@ public class EventUserCommandController {
     @Operation(summary = "Create EventUser")
     @PreAuthorize("hasRole('ADMIN') || @userPermissionEvaluator.isUser(authentication.principal.user, #userId)")
     public ResponseEntity<String> signUserUpForEvent(@RequestParam("user_id") UUID userId,
-                                                     @RequestParam("event_id") UUID eventId) throws NotCheckedException {
+                                                     @RequestParam("event_id") UUID eventId) throws NotCheckedException, IOException {
         StatusOr<EventUser> eventRegistration = eventUserCommandService.registerUserForEvent(userId, eventId);
 
         if(!eventRegistration.isOkAndPresent()) {
