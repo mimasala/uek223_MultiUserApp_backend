@@ -17,22 +17,27 @@ import java.util.UUID;
 @Service
 public class EventRecommenderQueryService {
     private final EventRepository eventRepository;
+    private final UserRepository userRepository;
 
     private final EventUserRepository eventUserRepository;
 
     @Autowired
-    public EventRecommenderQueryService(EventRepository eventRepository, EventUserRepository eventUserRepository) {
+    public EventRecommenderQueryService(EventRepository eventRepository, UserRepository userRepository, EventUserRepository eventUserRepository) {
         this.eventRepository = eventRepository;
+        this.userRepository = userRepository;
         this.eventUserRepository = eventUserRepository;
     }
 
     public List<EventRecommendation> getRecommendationForUser(String userId, int page, int pageLength) {
         return eventRepository.findAll(PageRequest.of(page, pageLength))
                 .stream()
-                .map(eventUserRepository::findAllByEvent)
+                .map(event -> {
+                    return eventUserRepository.findAllByEvent(event);
+                })
                 .flatMap(Collection::stream)
-                .map(eventUser ->
-                        new EventRecommendation(eventUser, UUID.fromString(userId)))
+                .map(eventUser -> {
+                    return new EventRecommendation(eventUser, UUID.fromString(userId));
+                })
                 .toList();
     }
 }
