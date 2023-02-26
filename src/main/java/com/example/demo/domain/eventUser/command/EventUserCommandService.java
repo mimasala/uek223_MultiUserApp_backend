@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -79,7 +80,7 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
     StatusOr<EventUser> registerUserForEvent(UUID userId, UUID eventId) throws IOException {
         List<Feedback> feedbacks = List.of(
                 new Feedback("registerEvent", userId.toString(), eventId.toString(),
-                        LocalDateTime.now().toString())
+                        LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyy-MM-dd hh:mm:ss +01:00")))
         );
         client.insertFeedback(feedbacks);
 

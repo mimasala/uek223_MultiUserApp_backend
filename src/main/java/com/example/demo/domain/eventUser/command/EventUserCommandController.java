@@ -32,7 +32,7 @@ public class EventUserCommandController {
 
     @PostMapping
     @Operation(summary = "Create EventUser")
-    @PreAuthorize("hasRole('ADMIN') || @userPermissionEvaluator.isUser(authentication.principal.user, #userId)")
+//    @PreAuthorize("hasRole('ADMIN') || @userPermissionEvaluator.isUser(authentication.principal.user, #userId)")
     public ResponseEntity<String> signUserUpForEvent(@RequestParam("user_id") UUID userId,
                                                      @RequestParam("event_id") UUID eventId) throws NotCheckedException, IOException {
         StatusOr<EventUser> eventRegistration = eventUserCommandService.registerUserForEvent(userId, eventId);

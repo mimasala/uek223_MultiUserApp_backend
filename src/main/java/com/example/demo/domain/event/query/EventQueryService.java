@@ -43,7 +43,9 @@ public class EventQueryService extends AbstractQueryServiceImpl<Event> {
                         LocalDateTime.now().toString())
         );
         client.insertFeedback(feedbacks);
-        return ((EventRepository) repository).findById(id).orElseThrow(() -> new EventNotFoundException("event with id: " + id + " not found"));
+        return ((EventRepository) repository)
+                .findById(id)
+                .orElseThrow(() -> new EventNotFoundException("event with id: " + id + " not found"));
     }
 
 }

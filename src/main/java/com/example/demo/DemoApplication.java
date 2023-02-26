@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 public class DemoApplication {
   @Bean
   Gorse getGorseClient() {
-    return new Gorse("http://127.0.0.1:8087", "Depenendcy");
+    return new Gorse("http://localhost:8088", "Depenendcy");
   }
   public static void main(String[] args) {
     SpringApplication.run(DemoApplication.class, args);

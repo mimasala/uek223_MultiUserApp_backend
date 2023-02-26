@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -25,7 +26,7 @@ public class EventRecommenderQueryController {
             "hasAuthority('USER_MODIFY') && @userPermissionEvaluator.isUser(authentication.principal.user, #userId)") //TODO (mimasala): check if this is correct
     public ResponseEntity<List<EventRecommendation>> getRecommendationsForUser(@PathVariable("userId") String userId,
                                                                                @RequestParam("page") int page,
-                                                                               @RequestParam("pageLength") int pageLength) {
+                                                                               @RequestParam("pageLength") int pageLength) throws IOException {
         return ResponseEntity.ok().body(
                 eventRecommenderQueryService.getRecommendationForUser(userId, page, pageLength)
         );
