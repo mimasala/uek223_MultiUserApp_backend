@@ -55,6 +55,10 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'com.tngtech.archunit:archunit:1.0.1'
+
+	// GCP
+	implementation 'com.google.cloud:google-cloud-secretmanager'
+	implementation platform('com.google.cloud:libraries-bom:26.1.4')
 }
 
 test {

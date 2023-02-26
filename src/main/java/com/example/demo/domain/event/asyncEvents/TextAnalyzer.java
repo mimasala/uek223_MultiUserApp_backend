@@ -1,9 +1,9 @@
 package com.example.demo.domain.event.asyncEvents;
 
 import com.example.demo.core.exception.OpenAIResponseUnprocessableException;
+import com.example.demo.core.security.helpers.SecretManager;
 import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.service.OpenAiService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.FileNotFoundException;
@@ -13,11 +13,11 @@ import java.util.regex.Pattern;
 
 @Component
 public class TextAnalyzer {
-    @Value("${openai.apikey}")
-    private String openaiApiKey;
+    private final SecretManager secretManager;
 
 
-    public TextAnalyzer() throws FileNotFoundException {
+    public TextAnalyzer(SecretManager secretManager) throws FileNotFoundException {
+        this.secretManager = secretManager;
     }
 
     private ResponseTypes getResposeTypeForString(String response) {
@@ -60,7 +60,8 @@ public class TextAnalyzer {
     }
 
     private String getOpenAiTextCompletion(String query) {
-        OpenAiService service = new OpenAiService(openaiApiKey);
+        String apiKey = secretManager.getSecret("projects/869490409088/secrets/OpenAI_APIkey");
+        OpenAiService service = new OpenAiService(apiKey);
         CompletionRequest completionRequest = CompletionRequest.builder()
                 .prompt(query)
                 .model("text-davinci-001")

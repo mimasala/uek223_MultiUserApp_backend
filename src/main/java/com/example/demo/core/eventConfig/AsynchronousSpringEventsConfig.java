@@ -1,4 +1,4 @@
-package com.example.demo.core;
+package com.example.demo.core.eventConfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
