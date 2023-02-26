@@ -54,3 +54,5 @@ Thumbs.db
 /.idea/
 /build/
 /gradle/
+
+src/main/resources/apikey

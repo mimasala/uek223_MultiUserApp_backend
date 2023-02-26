@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -45,6 +46,8 @@ public class EventCreationEventHandler implements ApplicationListener<EventCreat
         } catch (OpenAIResponseUnprocessableException e) {
             log.error("Failed to find label for event: " + event.getEvent().getId());
             return; //TODO(hugn): Find a better behavior if the previous step fails, like send to human reviewer.
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         String labelString = "[\"" + String.join("\", \"", labels) + "\"]";

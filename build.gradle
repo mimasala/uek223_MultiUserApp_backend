@@ -56,9 +56,10 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'com.tngtech.archunit:archunit:1.0.1'
 
+	implementation 'commons-io:commons-io:2.11.0'
 	// GCP
-	implementation 'com.google.cloud:google-cloud-secretmanager'
-	implementation platform('com.google.cloud:libraries-bom:26.1.4')
+	implementation("com.google.cloud:spring-cloud-gcp-starter-secretmanager:3.2.1")
+
 }
 
 test {
