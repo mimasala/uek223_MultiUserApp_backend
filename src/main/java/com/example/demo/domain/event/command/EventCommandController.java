@@ -6,7 +6,6 @@ import com.example.demo.domain.event.dto.EventMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,7 +25,6 @@ public class EventCommandController {
 
     @PostMapping("")
     @Operation(summary = "Create event")
-    @PreAuthorize("hasRole('ADMIN') || hasAuthority('')")
     public ResponseEntity<EventDTO> createEvent(@Valid @RequestBody EventDTO eventDTO) {
         return ResponseEntity
                 .ok()
