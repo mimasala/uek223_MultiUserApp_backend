@@ -3,6 +3,7 @@ package com.example.demo.domain.event.asyncEvents;
 import com.example.demo.core.exception.OpenAIResponseUnprocessableException;
 import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.service.OpenAiService;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 @Component
+@Log4j2
 public class TextAnalyzer {
     private ResponseTypes getResposeTypeForString(String response) {
         if (Pattern.compile("[0-9].*").matcher(response).find()) {
@@ -57,6 +59,8 @@ public class TextAnalyzer {
         ClassLoader classLoader = getClass().getClassLoader();
         classLoader.getResourceAsStream("apikey");
         byte[] bytes = IOUtils.toByteArray(classLoader.getResourceAsStream("apikey"));
+
+        log.debug("Calling OpenAI with query: " + query);
         OpenAiService service = new OpenAiService( new String(bytes, StandardCharsets.UTF_8));
         CompletionRequest completionRequest = CompletionRequest.builder()
                 .prompt(query)

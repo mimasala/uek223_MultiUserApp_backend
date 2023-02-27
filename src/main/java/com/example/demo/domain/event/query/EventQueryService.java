@@ -7,6 +7,7 @@ import com.example.demo.domain.event.Event;
 import com.example.demo.domain.event.EventRepository;
 import io.gorse.gorse4j.Feedback;
 import io.gorse.gorse4j.Gorse;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Log4j2
 public class EventQueryService extends AbstractQueryServiceImpl<Event> {
     private final Gorse client;
 
@@ -38,6 +40,7 @@ public class EventQueryService extends AbstractQueryServiceImpl<Event> {
     }
 
     public Event getEvent(UUID id, String userId) throws IOException {
+        log.info(String.format("Up-serting viewing-feedback of event(%s) by user(%s)", id.toString(), userId));
         List<Feedback> feedbacks = List.of(
                 new Feedback("viewEvent", userId, id.toString(),
                         LocalDateTime.now().toString())

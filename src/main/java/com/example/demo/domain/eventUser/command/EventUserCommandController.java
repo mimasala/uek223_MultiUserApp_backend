@@ -7,6 +7,7 @@ import com.example.demo.domain.eventUser.EventUser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import java.util.UUID;
 
 @Validated
 @RestController
+@Log4j2
 @RequestMapping("/eventUser")
 public class EventUserCommandController {
     private final EventUserCommandService eventUserCommandService;
@@ -35,6 +37,7 @@ public class EventUserCommandController {
 //    @PreAuthorize("hasRole('ADMIN') || @userPermissionEvaluator.isUser(authentication.principal.user, #userId)")
     public ResponseEntity<String> signUserUpForEvent(@RequestParam("user_id") UUID userId,
                                                      @RequestParam("event_id") UUID eventId) throws NotCheckedException, IOException {
+        log.info(String.format("Enrolling user: %s in event %s", userId.toString(), eventId.toString()));
         StatusOr<EventUser> eventRegistration = eventUserCommandService.registerUserForEvent(userId, eventId);
 
         if(!eventRegistration.isOkAndPresent()) {
@@ -59,6 +62,8 @@ public class EventUserCommandController {
     @PreAuthorize("hasRole('ADMIN') || (@userPermissionEvaluator.isUser(authentication.principal.user, #userId) && @userPermissionEvaluator.isEventOwner(authentication.principal.user, #eventId))")
     public ResponseEntity<String> deleteUserFromEvent(@RequestParam("user_id") UUID userId,
                                                       @RequestParam("event_id") UUID eventId) {
+        log.info(String.format("De-enrolling user: %s and event: %s", userId.toString(), eventId.toString()));
+
         HttpStatus status = eventUserCommandService.deleteUserFromEvent(userId, eventId);
 
         return ResponseEntity.status(status)

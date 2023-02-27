@@ -36,6 +36,7 @@ public class EventCreationEventHandler implements ApplicationListener<EventCreat
 
     @Override
     public void onApplicationEvent(EventCreatedMessage event) {
+        log.info(String.format("Back-insert event into recommendation system.%nevent id: %s", event.getEvent().getId()));
         try {
             List<String> labels = analyzer.getLabelsForText(event.getEvent().getEventName(), 5);
 
@@ -48,6 +49,7 @@ public class EventCreationEventHandler implements ApplicationListener<EventCreat
             log.error("Failed to find label for event: " + event.getEvent().getId());
             return; //TODO(hugn): Find a better behavior if the previous step fails, like send to human reviewer.
         } catch (IOException e) {
+            log.error("Failed to load api key for OpenAI. Please verify you have the `apikey` file placed in resources");
             throw new RuntimeException(e);
         }
     }
