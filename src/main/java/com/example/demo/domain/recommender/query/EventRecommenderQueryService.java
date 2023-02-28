@@ -5,7 +5,7 @@ import com.example.demo.domain.event.Event;
 import com.example.demo.domain.event.EventRepository;
 import com.example.demo.domain.eventUser.EventUserRepository;
 import com.example.demo.domain.recommender.EventRecommendation;
-import io.gorse.gorse4j.Gorse;
+import com.example.demo.domain.recommender.Gorse;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,8 +49,9 @@ public class EventRecommenderQueryService {
         return events;
     }
     public List<EventRecommendation> getRecommendationForUser(String userId, int page, int pageLength) throws IOException {
-        log.info("Getting recommendations for user: ");
-        List<String> recommendations = gorse.getRecommend(userId);
+        log.info("Getting recommendations for user: " + userId);
+        List<String> recommendations = gorse.getRecommend(userId, pageLength);
+
         List<Event> events = getEventsFromRecommendations(recommendations);
 
         return events

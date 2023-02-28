@@ -1,9 +1,9 @@
 package com.example.demo.domain.user.command;
 
 import com.example.demo.core.generic.AbstractCommandServiceImpl;
+import com.example.demo.domain.recommender.Gorse;
 import com.example.demo.domain.user.User;
 import com.example.demo.domain.user.UserRepository;
-import io.gorse.gorse4j.Gorse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

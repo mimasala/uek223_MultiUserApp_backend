@@ -1,7 +1,7 @@
 package com.example.demo.domain.event.asyncEvents;
 
 import com.example.demo.core.exception.OpenAIResponseUnprocessableException;
-import io.gorse.gorse4j.Gorse;
+import com.example.demo.domain.recommender.Gorse;
 import io.gorse.gorse4j.Item;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
