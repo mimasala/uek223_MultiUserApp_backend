@@ -14,9 +14,9 @@ public class Encoders {
   }
   */
 
-  @Bean
-  PasswordEncoder passwordEncoder() {
-    return NoOpPasswordEncoder.getInstance();
-  }
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
+    }
 }
 

@@ -56,6 +56,7 @@ public class Gorse {
     public List<Feedback> listFeedback(String userId, String feedbackType) throws IOException {
         return List.of(this.request("GET", this.endpoint + "/api/user/" + userId + "/feedback/" + feedbackType, null, Feedback[].class));
     }
+
     public List<String> getRecommend(String userId, int pageLength, int page) throws IOException {
         return getRecommend(userId, pageLength, page, 0);
     }
@@ -63,17 +64,18 @@ public class Gorse {
     public List<String> getRecommend(String userId, int pageLength, int page, int initialOffset) throws IOException {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("n", String.valueOf(pageLength));
-        parameters.put("offset", String.valueOf(pageLength*page+initialOffset));
+        parameters.put("offset", String.valueOf(pageLength * page + initialOffset));
         return List.of(this.request("GET", this.endpoint + "/api/recommend/" + userId, null, String[].class, parameters));
     }
 
     private <Request, Response> Response request(String method, String url, Request request, Class<Response> responseClass) throws IOException {
         return request(method, url, request, responseClass, new HashMap<>());
     }
+
     private <Request, Response> Response request(String method, String url, Request request, Class<Response> responseClass, Map<String, String> parameters) throws IOException {
         StringBuilder paramterList = new StringBuilder();
-        for (Map.Entry<String, String> parameter: parameters.entrySet()) {
-            if(paramterList.isEmpty()) {
+        for (Map.Entry<String, String> parameter : parameters.entrySet()) {
+            if (paramterList.isEmpty()) {
                 paramterList.append("?");
             } else {
                 paramterList.append("&");
@@ -83,7 +85,7 @@ public class Gorse {
             paramterList.append(parameter.getValue());
         }
 
-        HttpURLConnection connection = (HttpURLConnection) new URL(url+paramterList.toString()).openConnection();
+        HttpURLConnection connection = (HttpURLConnection) new URL(url + paramterList).openConnection();
         connection.setRequestMethod(method);
         connection.setRequestProperty("X-API-Key", this.apiKey);
         connection.setRequestProperty("Content-Type", "application/json");

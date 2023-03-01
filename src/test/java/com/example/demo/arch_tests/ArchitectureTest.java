@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.lang.ArchRule;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,12 +18,5 @@ class ArchitectureTest {
                 .should().onlyBeAccessed().byClassesThat().areAnnotatedWith(RestController.class)
                 .orShould().beAnnotatedWith(Service.class).orShould().haveNameMatching(".*Service*");
         onlyAllowControllersConfigurationAndServiceToDependOnServices.check(importedClasses);
-
-        // TODO(hugn): This has been commented out for the CQRS pattern, please fix when time is available
-//       ArchRule onlyAllowServicesToDependOnRepositories = classes().that().areAnnotatedWith(Repository.class)
-//                .or().haveNameMatching(".*Repo*")
-//                .should().onlyBeAccessed().byClassesThat()
-//                .haveNameMatching(".*Service*").orShould().beAnnotatedWith(Service.class);
-//        onlyAllowServicesToDependOnRepositories.check(importedClasses);
     }
 }

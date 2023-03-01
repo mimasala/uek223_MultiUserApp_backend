@@ -11,18 +11,19 @@ import redis.clients.jedis.JedisPool;
 @SpringBootApplication
 @Log4j2
 public class DemoApplication {
-  @Bean
-  Gorse getGorseClient() {
-    log.debug("Creating connection to gorse on: http://localhost:8088");
-    return new Gorse("http://localhost:8088", "Depenendcy");
-  }
+    @Bean
+    Gorse getGorseClient() {
+        log.debug("Creating connection to gorse on: http://localhost:8088");
+        return new Gorse("http://localhost:8088", "Depenendcy");
+    }
 
-  @Bean
-  JedisPoolWrapper getRedisConnection() {
-    return new JedisPoolWrapper(new JedisPool("localhost", 6379));
-  }
-  public static void main(String[] args) {
-    SpringApplication.run(DemoApplication.class, args);
-  }
+    @Bean
+    JedisPoolWrapper getRedisConnection() {
+        return new JedisPoolWrapper(new JedisPool("localhost", 6379));
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
 
 }

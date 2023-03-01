@@ -24,7 +24,7 @@ public class EventCreationEventHandler implements ApplicationListener<EventCreat
     private final Gorse client;
 
     @Autowired
-    public EventCreationEventHandler(TextAnalyzer analyzer, Gorse client) throws SQLException {
+    public EventCreationEventHandler(TextAnalyzer analyzer, Gorse client) {
         this.analyzer = analyzer;
         this.client = client;
     }
@@ -47,7 +47,7 @@ public class EventCreationEventHandler implements ApplicationListener<EventCreat
             ));
         } catch (OpenAIResponseUnprocessableException e) {
             log.error("Failed to find label for event: " + event.getEvent().getId());
-            return; //TODO(hugn): Find a better behavior if the previous step fails, like send to human reviewer.
+            return; //TODO (hugn): Find a better behavior if the previous step fails, like send to human reviewer.
         } catch (IOException e) {
             log.error("Failed to load api key for OpenAI. Please verify you have the `apikey` file placed in resources");
             throw new RuntimeException(e);

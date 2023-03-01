@@ -13,9 +13,16 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
-public interface EventUserRepository extends AbstractRepository<EventUser> {long deleteByUserInAndEventIn(Collection<User> users, Collection<Event> events);@Transactional@Modifying@Query("delete from EventUser e where e.user = ?1 and e.event = ?2")
+public interface EventUserRepository extends AbstractRepository<EventUser> {
+    long deleteByUserInAndEventIn(Collection<User> users, Collection<Event> events);
+
+    @Transactional
+    @Modifying
+    @Query("delete from EventUser e where e.user = ?1 and e.event = ?2")
     int deleteByUserAndEvent(User user, Event event);
+
     List<EventUser> findAllByEvent(Event event, PageRequest pageReqest);
+
     List<EventUser> findAllByEvent(Event event);
 
     void deleteByEvent(Event event);

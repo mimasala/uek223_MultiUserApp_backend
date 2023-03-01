@@ -67,7 +67,7 @@ public class EventUserQueryController {
         log.info(String.format("Getting all participants for event(%s). Request started by userId(%s)", eventId.toString(), user.getUserId().toString()));
 
 
-        if(!isUserAllowedToPerformRequest) {
+        if (!isUserAllowedToPerformRequest) {
             log.error("Illegal participants list request by user: " + user.getUserId());
             return ResponseEntity.status(403)
                     .body("User doesn't meet any of the following criteria: 1) User is admin 2) User isn't event owner");

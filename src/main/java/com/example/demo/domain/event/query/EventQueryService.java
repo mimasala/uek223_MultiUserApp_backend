@@ -34,12 +34,13 @@ public class EventQueryService extends AbstractQueryServiceImpl<Event> {
         this.eventUserRepository = eventUserRepository;
         this.userQueryService = userQueryService;
     }
+
     public boolean hasCapacityLeftForEnrollment(Event event) {
         return eventUserRepository.findAllByEvent(event).size() < event.getParticipantsLimit();
     }
 
     public List<Event> getEvents(Optional<UUID> userId) {
-        return  ((EventRepository) repository)
+        return repository
                 .findAll()
                 .stream()
                 .filter(event -> userId.isEmpty() || event.getEventOwner().getId().equals(userId.get()))
@@ -53,13 +54,13 @@ public class EventQueryService extends AbstractQueryServiceImpl<Event> {
                         LocalDateTime.now().toString())
         );
         client.insertFeedback(feedbacks);
-        return ((EventRepository) repository)
+        return repository
                 .findById(id)
                 .orElseThrow(() -> new EventNotFoundException("event with id: " + id + " not found"));
     }
 
     public double getPageCount(Integer pageLength) {
-        if(pageLength == 0) {
+        if (pageLength == 0) {
             return 1;
         }
         return Math.ceil(repository.count() / (float) pageLength);

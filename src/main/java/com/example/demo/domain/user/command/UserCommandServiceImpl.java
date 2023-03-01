@@ -15,26 +15,26 @@ import java.util.UUID;
 @Service
 public class UserCommandServiceImpl extends AbstractCommandServiceImpl<User> implements UserCommandService {
 
-  private final PasswordEncoder passwordEncoder;
-  private final Gorse client;
+    private final PasswordEncoder passwordEncoder;
+    private final Gorse client;
 
-  @Autowired
-  public UserCommandServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder, Gorse client) {
-    super(repository);
-    this.passwordEncoder = passwordEncoder;
-    this.client = client;
-  }
+    @Autowired
+    public UserCommandServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder, Gorse client) {
+        super(repository);
+        this.passwordEncoder = passwordEncoder;
+        this.client = client;
+    }
 
-  @Override
-  public User register(User user) throws IOException {
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
-    user.setUserId(UUID.randomUUID());
-    user = save(user);
+    @Override
+    public User register(User user) throws IOException {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setUserId(UUID.randomUUID());
+        user = save(user);
 
-    client.insertUser(new io.gorse.gorse4j.User(
-            user.getId().toString(), Collections.emptyList()
-    ));
+        client.insertUser(new io.gorse.gorse4j.User(
+                user.getId().toString(), Collections.emptyList()
+        ));
 
-    return user;
-  }
+        return user;
+    }
 }

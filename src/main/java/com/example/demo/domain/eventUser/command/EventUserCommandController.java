@@ -71,7 +71,7 @@ public class EventUserCommandController {
         log.info(String.format("Enrolling user: %s in event %s", userId.toString(), eventId.toString()));
         StatusOr<EventUser> eventRegistration = eventUserCommandService.registerUserForEvent(userId, eventId, true);
 
-        if(!eventRegistration.isOkAndPresent()) {
+        if (!eventRegistration.isOkAndPresent()) {
             return ResponseEntity
                     .status(eventRegistration.getStatus())
                     .body(eventUserCommandService.getMessageForEventRegistration(eventRegistration.getStatus()));
