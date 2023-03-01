@@ -3,6 +3,8 @@ package com.example.demo.domain.eventUser.command;
 import com.example.demo.core.adapter.LocalDateTimeAdapter;
 import com.example.demo.core.exception.NotCheckedException;
 import com.example.demo.core.generic.StatusOr;
+import com.example.demo.domain.event.dto.EventDTO;
+import com.example.demo.domain.event.dto.EventMapper;
 import com.example.demo.domain.eventUser.EventUser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -26,10 +28,23 @@ import java.util.UUID;
 @RequestMapping("/eventUser")
 public class EventUserCommandController {
     private final EventUserCommandService eventUserCommandService;
+    private final EventMapper eventMapper;
 
     @Autowired
-    public EventUserCommandController(EventUserCommandService eventUserCommandService) {
+    public EventUserCommandController(EventUserCommandService eventUserCommandService, EventMapper eventMapper) {
         this.eventUserCommandService = eventUserCommandService;
+        this.eventMapper = eventMapper;
+    }
+
+    @PostMapping("/{eventId}")
+    @Operation(summary="Create many EventUser")
+    public ResponseEntity<EventDTO> signManyUserUpForEvent(@PathVariable("eventId") UUID eventId,
+                                                           @RequestBody UUID[] userIds) throws IOException {
+        log.info(String.format("Creating many enrollments in event(%s)", eventId.toString()));
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(eventMapper.toDTO(eventUserCommandService.createManyEnrollmentsForEvent(eventId, userIds)));
     }
 
     @PostMapping
@@ -39,7 +54,7 @@ public class EventUserCommandController {
     public ResponseEntity<String> signUserUpForEvent(@RequestParam("user_id") UUID userId,
                                                      @RequestParam("event_id") UUID eventId) throws NotCheckedException, IOException {
         log.info(String.format("Enrolling user: %s in event %s", userId.toString(), eventId.toString()));
-        StatusOr<EventUser> eventRegistration = eventUserCommandService.registerUserForEvent(userId, eventId);
+        StatusOr<EventUser> eventRegistration = eventUserCommandService.registerUserForEvent(userId, eventId, true);
 
         if (!eventRegistration.isOkAndPresent()) {
             return ResponseEntity
