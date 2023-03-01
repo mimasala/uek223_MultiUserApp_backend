@@ -56,11 +56,14 @@ public class Gorse {
     public List<Feedback> listFeedback(String userId, String feedbackType) throws IOException {
         return List.of(this.request("GET", this.endpoint + "/api/user/" + userId + "/feedback/" + feedbackType, null, Feedback[].class));
     }
-
     public List<String> getRecommend(String userId, int pageLength, int page) throws IOException {
+        return getRecommend(userId, pageLength, page, 0);
+    }
+
+    public List<String> getRecommend(String userId, int pageLength, int page, int initialOffset) throws IOException {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("n", String.valueOf(pageLength));
-        parameters.put("offset", String.valueOf(pageLength*page));
+        parameters.put("offset", String.valueOf(pageLength*page+initialOffset));
         return List.of(this.request("GET", this.endpoint + "/api/recommend/" + userId, null, String[].class, parameters));
     }
 
