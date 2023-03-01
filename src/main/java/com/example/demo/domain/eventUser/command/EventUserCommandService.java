@@ -75,6 +75,11 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
         if (!eventQueryService.hasCapacityLeftForEnrollment(event.get())) {
             return HttpStatus.TOO_MANY_REQUESTS;
         }
+
+        if( user.get().getRoles().stream().anyMatch(role -> role.getName().equals("ADMIN"))) {
+            return HttpStatus.BAD_REQUEST;
+        }
+
         return HttpStatus.OK;
     }
 
@@ -82,7 +87,7 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
      * Register a user for an event
      * @param userId Which user should be registered
      * @param eventId For which event should the user be registered
-     * @param shouldAddFeedbacks Whether or not this enlisment should be used for the recommendation engine.
+     * @param shouldAddFeedbacks Whether this enlisment should be used for the recommendation engine.
      *                           -> If the user performed the action, then yes
      *                           -> In other cases, another personen enlisted the user, so the feedback should not be used.
      * @return Either an error code or if everything went well, the created enlistment
@@ -136,6 +141,9 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
             }
             case NOT_FOUND -> {
                 return "Either the user or the event have not been found.";
+            }
+            case BAD_REQUEST -> {
+                return "Admins aren't allowed to enlist in an event. Please use a personal account.";
             }
         }
         return "Can't create error message - HttpStatus is not known";

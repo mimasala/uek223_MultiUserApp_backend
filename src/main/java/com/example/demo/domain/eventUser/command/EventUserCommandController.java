@@ -36,6 +36,13 @@ public class EventUserCommandController {
         this.eventMapper = eventMapper;
     }
 
+    /**
+     * This method is used to create many event users. Each userId in the userIds will get enrolled in the event (provided via eventId)
+     * @param eventId For which event should the users be enrolled
+     * @param userIds Which users should be enrolled in the event.
+     * @return The event into which the users have been enrolled.
+     * @throws IOException If the connection to the recommendation engine fails, this exception get's thrown.
+     */
     @PostMapping("/{eventId}")
     @Operation(summary="Create many EventUser")
     public ResponseEntity<EventDTO> signManyUserUpForEvent(@PathVariable("eventId") UUID eventId,
@@ -47,6 +54,14 @@ public class EventUserCommandController {
                 .body(eventMapper.toDTO(eventUserCommandService.createManyEnrollmentsForEvent(eventId, userIds)));
     }
 
+    /**
+     * This endpoint signes a specified user
+     * @param userId
+     * @param eventId
+     * @return
+     * @throws NotCheckedException
+     * @throws IOException
+     */
     @PostMapping
     @Operation(summary = "Create EventUser")
     @PreAuthorize("hasAuthority('USER_MODIFY') || @userPermissionEvaluator.isUser(authentication.principal.user, #userId)" +
