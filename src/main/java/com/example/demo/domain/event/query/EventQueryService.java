@@ -51,4 +51,10 @@ public class EventQueryService extends AbstractQueryServiceImpl<Event> {
                 .orElseThrow(() -> new EventNotFoundException("event with id: " + id + " not found"));
     }
 
+    public double getPageCount(Integer pageLength) {
+        if(pageLength == 0) {
+            return 1;
+        }
+        return Math.ceil(repository.count() / (float) pageLength);
+    }
 }
