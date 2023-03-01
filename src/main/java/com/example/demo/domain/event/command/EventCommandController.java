@@ -34,6 +34,7 @@ public class EventCommandController {
                 .body(eventMapper.toDTO(eventCommandService
                         .createEvent(eventMapper.fromDTO(eventDTO))));
     }
+
     @PutMapping("/{id}")
     @Operation(summary = "Update event")
     public ResponseEntity<EventDTO> updateEvent(@Valid @RequestBody EventDTO eventDTO, @PathVariable UUID id) {
@@ -43,6 +44,7 @@ public class EventCommandController {
                 .body(eventMapper.toDTO(eventCommandService
                         .updateEvent(eventMapper.fromDTO(eventDTO), id)));
     }
+
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete event")
     public ResponseEntity<UUID> deleteEvent(@PathVariable UUID id) {

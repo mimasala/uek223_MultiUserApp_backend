@@ -3,20 +3,25 @@ package com.example.demo.domain.event.command;
 import com.example.demo.domain.event.Event;
 import com.example.demo.domain.event.EventRepository;
 import com.example.demo.domain.event.asyncEvents.EventCreatedMessage;
+import com.example.demo.domain.eventUser.EventUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class EventCommandService {
     private final EventRepository eventRepository;
+    private final EventUserRepository eventUserRepository;
     private final ApplicationEventPublisher applicationEventPublisher;
     @Autowired
-    public EventCommandService(EventRepository eventRepository, ApplicationEventPublisher applicationEventPublisher) {
+    public EventCommandService(EventRepository eventRepository, EventUserRepository eventUserRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.eventRepository = eventRepository;
+        this.eventUserRepository = eventUserRepository;
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
@@ -36,7 +41,14 @@ public class EventCommandService {
         return eventRepository.save(fromDTO);
     }
 
+    @Transactional
     public UUID deleteEvent(UUID id) {
+        Optional<Event> toDeleteEvent = eventRepository.findById(id);
+
+        if(toDeleteEvent.isEmpty()) {
+            return id;
+        }
+        eventUserRepository.deleteByEvent(toDeleteEvent.get());
         eventRepository.deleteById(id);
         return id;
     }
