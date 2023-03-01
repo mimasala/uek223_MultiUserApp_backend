@@ -1,15 +1,19 @@
 package com.example.demo.domain.user.command;
 
 import com.example.demo.core.generic.AbstractCommandServiceImpl;
+import com.example.demo.domain.event.EventRepository;
+import com.example.demo.domain.eventUser.EventUserRepository;
 import com.example.demo.domain.recommender.Gorse;
 import com.example.demo.domain.user.User;
 import com.example.demo.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -18,11 +22,16 @@ public class UserCommandServiceImpl extends AbstractCommandServiceImpl<User> imp
     private final PasswordEncoder passwordEncoder;
     private final Gorse client;
 
+    private final EventUserRepository eventUserRepository;
+    private final EventRepository eventRepository;
+
     @Autowired
-    public UserCommandServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder, Gorse client) {
+    public UserCommandServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder, Gorse client, EventUserRepository eventUserRepository, EventRepository eventRepository) {
         super(repository);
         this.passwordEncoder = passwordEncoder;
         this.client = client;
+        this.eventUserRepository = eventUserRepository;
+        this.eventRepository = eventRepository;
     }
 
     @Override
@@ -36,5 +45,14 @@ public class UserCommandServiceImpl extends AbstractCommandServiceImpl<User> imp
         ));
 
         return user;
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(UUID id) {
+       User user = repository.findById(id).orElseThrow(() -> new NoSuchElementException("The requested user can't be found."));
+       eventRepository.deleteByEventOwner(user);
+       eventUserRepository.deleteByUser(user);
+       repository.deleteById(id);
     }
 }

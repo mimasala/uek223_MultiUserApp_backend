@@ -51,7 +51,7 @@ public class UserCommandController {
     @PreAuthorize("hasAuthority('USER_DELETE')")
     @Operation(summary = "Delete User")
     public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
-        userCommandService.deleteById(id);
+        userCommandService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

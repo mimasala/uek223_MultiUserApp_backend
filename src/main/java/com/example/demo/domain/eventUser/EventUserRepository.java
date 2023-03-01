@@ -26,4 +26,5 @@ public interface EventUserRepository extends AbstractRepository<EventUser> {
     List<EventUser> findAllByEvent(Event event);
 
     void deleteByEvent(Event event);
+    void deleteByUser(User user);
 }
