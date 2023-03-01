@@ -50,7 +50,7 @@ public class EventRecommenderQueryService {
     }
     public List<EventRecommendation> getRecommendationForUser(String userId, int page, int pageLength) throws IOException {
         log.info("Getting recommendations for user: " + userId);
-        List<String> recommendations = gorse.getRecommend(userId, pageLength);
+        List<String> recommendations = gorse.getRecommend(userId, pageLength, page);
 
         List<Event> events = getEventsFromRecommendations(recommendations);
 
