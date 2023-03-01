@@ -9,6 +9,10 @@ import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * This class is used to convert a LocalDateTime object to a gson JsonElement.
+ * This makes it possible for gson to convert LocalDateTime to a json string.
+ */
 public class LocalDateTimeAdapter implements JsonSerializer<LocalDateTime> {
     @Override
     public JsonElement serialize(LocalDateTime date, Type typeOfSrc, JsonSerializationContext context) {
