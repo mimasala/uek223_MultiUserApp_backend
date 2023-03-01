@@ -21,17 +21,15 @@ import java.util.UUID;
 @Service
 public class EventUserQueryService extends AbstractQueryServiceImpl<EventUser> {
     private final EventRepository eventRepository;
-    private final UserRepository userRepository;
 
     @Autowired
-    public EventUserQueryService(EventUserRepository repository, EventRepository eventRepository, UserRepository userRepository) {
+    public EventUserQueryService(EventUserRepository repository, EventRepository eventRepository) {
         super(repository);
         this.eventRepository = eventRepository;
-        this.userRepository = userRepository;
     }
 
     private List<Event> getAllEventsOfUser(UUID user) {
-        return ((EventUserRepository) repository)
+        return repository
                 .findAll()
                 .stream()
                 .map(EventUser::getEvent)
@@ -57,21 +55,17 @@ public class EventUserQueryService extends AbstractQueryServiceImpl<EventUser> {
 
     public boolean isUserAllowedToGetEventParticipants(UUID eventId, User user) {
         Event event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new NoSuchElementException("Unable to find event with id: " + eventId.toString()));
+                .orElseThrow(() -> new NoSuchElementException("Unable to find event with id: " + eventId));
 
         if (event.getEventOwner().getId() == user.getUserId()) {
             return true;
         }
-        if(areAnyUserRoles("ADMIN", user)) {
-            return true;
-        }
-
-        return false;
+        return areAnyUserRoles("ADMIN", user);
     }
 
     public List<User> getAllParticipantsOfEvent(UUID eventId, int page, int pageLength) {
         Event event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new NoSuchElementException("Unable to find event with id: " + eventId.toString()));
+                .orElseThrow(() -> new NoSuchElementException("Unable to find event with id: " + eventId));
 
         return ((EventUserRepository) repository).findAllByEvent(event, PageRequest.of(page, pageLength))
                 .stream()

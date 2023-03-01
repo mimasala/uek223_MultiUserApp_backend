@@ -47,13 +47,14 @@ public class EventRecommenderQueryService {
                 .filter(eventuser -> eventuser.getUser().getId().toString().equals(userId))
                 .toList().isEmpty();
     }
+
     private List<Event> getEventsFromRecommendations(List<String> recommendations) throws IOException {
         List<Event> events = new ArrayList<>();
 
-        for ( String recommendation: recommendations ) {
+        for (String recommendation : recommendations) {
             Optional<Event> recommendationEvent = eventRepository.findById(UUID.fromString(recommendation));
 
-            if(recommendationEvent.isPresent()) {
+            if (recommendationEvent.isPresent()) {
                 events.add(recommendationEvent.get());
             } else {
                 log.error("Got recommended an inexisting item: " + recommendation);
@@ -70,37 +71,39 @@ public class EventRecommenderQueryService {
                 .filter(event -> event.getEventOwner().getUserId().toString().equals(userId))
                 .toList();
     }
+
     private boolean replaceUserOwnedEvents(List<Event> allEvents, String userId, int page, int pageLength, int numberOfUserEventsRemovalAttemps) throws IOException {
         List<Event> userOwnedEvents = getUserOwnedEvents(allEvents, userId);
         allEvents.removeAll(userOwnedEvents);
 
-        if(userOwnedEvents.isEmpty()) {
+        if (userOwnedEvents.isEmpty()) {
             return true;
         }
 
-        if(numberOfUserEventsRemovalAttemps >= maxNumberOfEventsRemovalAttemps) {
+        if (numberOfUserEventsRemovalAttemps >= maxNumberOfEventsRemovalAttemps) {
             return false;
         }
 
         int currentUserOffset = 0;
         try (Jedis jedis = jedisPool.getJedisPool().getResource()) {
-            currentUserOffset = Integer.parseInt(jedis.get("user_recs_"+userId));
-        } catch(RuntimeException ignore) {
+            currentUserOffset = Integer.parseInt(jedis.get("user_recs_" + userId));
+        } catch (RuntimeException ignore) {
             log.debug("Miss on redis cache with userid");
         }
         try (Jedis jedis = jedisPool.getJedisPool().getResource()) {
-            jedis.set("user_recs_"+userId, String.valueOf(userOwnedEvents.size()+currentUserOffset));
+            jedis.set("user_recs_" + userId, String.valueOf(userOwnedEvents.size() + currentUserOffset));
         }
 
         System.out.println("Cleaning out people");
-        List<String> potentiallyCleanedRecs = gorse.getRecommend(userId, page, pageLength, userOwnedEvents.size()+currentUserOffset);
+        List<String> potentiallyCleanedRecs = gorse.getRecommend(userId, page, pageLength, userOwnedEvents.size() + currentUserOffset);
 
         allEvents.addAll(
-            getEventsFromRecommendations(potentiallyCleanedRecs)
+                getEventsFromRecommendations(potentiallyCleanedRecs)
         );
 
         return replaceUserOwnedEvents(allEvents, userId, page, pageLength, ++numberOfUserEventsRemovalAttemps);
     }
+
     public List<EventRecommendation> getRecommendationForUser(String userId, int page, int pageLength) throws IOException {
         List<String> recommendations = gorse.getRecommend(userId, pageLength, page);
         log.info("Recommmmendations raw, unfiltered. Length: " + recommendations.size());
@@ -108,7 +111,7 @@ public class EventRecommenderQueryService {
         List<Event> events = getEventsFromRecommendations(recommendations);
         boolean wasAbleToReplaceAllUsersEvent = replaceUserOwnedEvents(events, userId, page, pageLength, 0);
 
-        if(wasAbleToReplaceAllUsersEvent) {
+        if (wasAbleToReplaceAllUsersEvent) {
             log.info("Successfully got the recommendations.");
         } else {
             log.warn("Unable to replace all user-owned events with configured max retries. " +

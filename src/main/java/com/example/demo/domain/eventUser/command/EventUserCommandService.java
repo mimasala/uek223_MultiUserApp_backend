@@ -43,8 +43,8 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
         this.client = client;
     }
 
-    HttpStatus convertNumberOfDeletedEntitiesToStatus(int numberOfEntities){
-        if(numberOfEntities == 0) {
+    HttpStatus convertNumberOfDeletedEntitiesToStatus(int numberOfEntities) {
+        if (numberOfEntities == 0) {
             return HttpStatus.BAD_REQUEST; // nothing was deleted, and we expect something to be deleted
         }
         return HttpStatus.OK;
@@ -63,9 +63,11 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
         int numberOfDeletedEntities = eventUserRepository.deleteByUserAndEvent(user.get(), event.get());
         return convertNumberOfDeletedEntitiesToStatus(numberOfDeletedEntities);
     }
+
     boolean areEventAndUserNotFound(Optional<Event> event, Optional<User> user) {
         return user.isEmpty() || event.isEmpty();
     }
+
     HttpStatus getEventUserStatus(Optional<Event> event, Optional<User> user) {
         if (areEventAndUserNotFound(event, user)) {
             return HttpStatus.NOT_FOUND;
@@ -89,8 +91,8 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
 
         HttpStatus validationStatus = getEventUserStatus(event, user);
 
-        if(validationStatus.isError()) {
-            return new StatusOr<EventUser>(validationStatus);
+        if (validationStatus.isError()) {
+            return new StatusOr<>(validationStatus);
         }
 
         EventUser eventUser = new EventUser(user.get(), event.get());
@@ -100,7 +102,7 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
     }
 
     String getMessageForUserEventDeletion(HttpStatus status) {
-        if(!status.isError()) {
+        if (!status.isError()) {
             return "The request succeeded.";
         }
         switch (status) {
@@ -113,8 +115,9 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
         }
         return "Can't create error message - HttpStatus is not known";
     }
+
     String getMessageForEventRegistration(HttpStatus status) {
-        if(!status.isError()) {
+        if (!status.isError()) {
             return "The request succeeded.";
         }
         switch (status) {

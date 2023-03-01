@@ -8,7 +8,7 @@ import java.util.Optional;
 
 /**
  * This class is used to bundle the status of a service execution and an item together.
- * 
+ *
  * @param <T>
  */
 public class StatusOr<T> {
@@ -29,6 +29,7 @@ public class StatusOr<T> {
         this.item = item;
         this.status = HttpStatus.OK;
     }
+
     public StatusOr(T item) {
         this.item = Optional.of(item);
         this.status = HttpStatus.OK;
@@ -44,7 +45,7 @@ public class StatusOr<T> {
     }
 
     public T getItem() throws NotCheckedException {
-        if(!checkedForItemStatus) {
+        if (!checkedForItemStatus) {
             throw new NotCheckedException("You need to check if the item is present and valid using isOkAndPresent() before accessing it.");
         }
         return item.get();

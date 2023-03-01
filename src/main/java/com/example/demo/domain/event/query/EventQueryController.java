@@ -33,7 +33,7 @@ public class EventQueryController {
     @PreAuthorize("hasAuthority('ADMIN_READ')")
     @Operation(summary = "Get all events")
     public ResponseEntity<List<EventDTO>> getEvents(@RequestParam(value = "user_id", required = false) Optional<UUID> userId) {
-        userId.ifPresentOrElse(uuid -> log.info("Getting all events for user: " + uuid.toString()),
+        userId.ifPresentOrElse(uuid -> log.info("Getting all events for user: " + uuid),
                 () -> log.info("Getting all events"));
 
         return ResponseEntity.ok().body(eventMapper.toDTOs(eventQueryService.getEvents(userId)));

@@ -1,6 +1,7 @@
 package com.example.demo.domain.event.asyncEvents;
 
 import com.example.demo.core.exception.OpenAIResponseUnprocessableException;
+import com.theokanning.openai.completion.CompletionChoice;
 import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.service.OpenAiService;
 import lombok.extern.log4j.Log4j2;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 @Component
@@ -58,10 +60,10 @@ public class TextAnalyzer {
     private String getOpenAiTextCompletion(String query) throws IOException {
         ClassLoader classLoader = getClass().getClassLoader();
         classLoader.getResourceAsStream("apikey");
-        byte[] bytes = IOUtils.toByteArray(classLoader.getResourceAsStream("apikey"));
+        byte[] bytes = IOUtils.toByteArray(Objects.requireNonNull(classLoader.getResourceAsStream("apikey")));
 
         log.debug("Calling OpenAI with query: " + query);
-        OpenAiService service = new OpenAiService( new String(bytes, StandardCharsets.UTF_8));
+        OpenAiService service = new OpenAiService(new String(bytes, StandardCharsets.UTF_8));
         CompletionRequest completionRequest = CompletionRequest.builder()
                 .prompt(query)
                 .model("text-davinci-001")
@@ -69,18 +71,18 @@ public class TextAnalyzer {
                 .build();
         List<String> responses = service.createCompletion(completionRequest).getChoices()
                 .stream()
-                .map(completionChoice -> completionChoice.getText())
+                .map(CompletionChoice::getText)
                 .toList();
 
         return responses.get(0);
     }
 
     /**
-     * Get the labels for the provided text. This method is a wrapper around https://fasttext.cc/.
+     * Get the labels for the provided text. This method is a wrapper around <a href="https://fasttext.cc/"/>.
      *
      * @param text           Text for which the labels should be analyzed
      * @param numberOfLabels How many labels should be predicted?
-     * @return This returns a list of pairs. Each pair consists of a label and a the confidence of said label.
+     * @return This returns a list of pairs. Each pair consists of a label and the confidence of said label.
      */
     public List<String> getLabelsForText(String text, int numberOfLabels) throws OpenAIResponseUnprocessableException, IOException {
         String query = String.format("Create %d one-word labels for this text: \"%s\". Don't provide any description:", numberOfLabels, text);

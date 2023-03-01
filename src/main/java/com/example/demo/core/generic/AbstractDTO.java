@@ -4,21 +4,21 @@ import java.util.UUID;
 
 public abstract class AbstractDTO {
 
-  private UUID id;
+    private UUID id;
 
-  protected AbstractDTO() {
-  }
+    protected AbstractDTO() {
+    }
 
-  protected AbstractDTO(UUID id) {
-    this.id = id;
-  }
+    protected AbstractDTO(UUID id) {
+        this.id = id;
+    }
 
-  public UUID getId() {
-    return id;
-  }
+    public UUID getId() {
+        return id;
+    }
 
-  public AbstractDTO setId(UUID id) {
-    this.id = id;
-    return this;
-  }
+    public AbstractDTO setId(UUID id) {
+        this.id = id;
+        return this;
+    }
 }

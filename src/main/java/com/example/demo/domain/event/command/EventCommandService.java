@@ -18,6 +18,7 @@ public class EventCommandService {
     private final EventRepository eventRepository;
     private final EventUserRepository eventUserRepository;
     private final ApplicationEventPublisher applicationEventPublisher;
+
     @Autowired
     public EventCommandService(EventRepository eventRepository, EventUserRepository eventUserRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.eventRepository = eventRepository;
@@ -31,6 +32,7 @@ public class EventCommandService {
         applicationEventPublisher.publishEvent(customSpringEvent);
 
     }
+
     public Event createEvent(Event fromDTO) {
         publishEventCreationEvent(fromDTO);
         return eventRepository.save(fromDTO);
@@ -45,7 +47,7 @@ public class EventCommandService {
     public UUID deleteEvent(UUID id) {
         Optional<Event> toDeleteEvent = eventRepository.findById(id);
 
-        if(toDeleteEvent.isEmpty()) {
+        if (toDeleteEvent.isEmpty()) {
             return id;
         }
         eventUserRepository.deleteByEvent(toDeleteEvent.get());
