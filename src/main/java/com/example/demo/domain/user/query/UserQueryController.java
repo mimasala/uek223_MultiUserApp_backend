@@ -33,7 +33,7 @@ public class UserQueryController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get User")
-    @PreAuthorize("hasAuthority('ADMIN_READ') || @userPermissionEvaluator.isUser(authentication.principal.user, #userId)")
+    @PreAuthorize("hasAuthority('ADMIN_READ') || @userPermissionEvaluator.isUser(authentication.principal.user, #id)")
     public ResponseEntity<UserDTO> retrieveById(@PathVariable UUID id) {
         User user = userQueryService.findById(id);
         return new ResponseEntity<>(userMapper.toDTO(user), HttpStatus.OK);
