@@ -8,8 +8,10 @@ In this Repository, we will implement the Event Entity for the Project.
 ## Installation
 
 1. `git clone https://github.com/mimasala/uek223_MultiUserApp_backend.git`
-2. open the project in your IDE
-3. run the project
+2. Create an API key for OpenAI TODO(hugn) Add link here
+3. Create file called `apikey` inside /src/main/resources and copy-paste the key there.
+3. open the project in your IDE
+4. run the project
 
 
 ## Our own Features

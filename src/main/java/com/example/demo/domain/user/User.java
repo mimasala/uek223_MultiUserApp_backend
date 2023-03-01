@@ -2,6 +2,7 @@ package com.example.demo.domain.user;
 
 import com.example.demo.core.generic.AbstractEntity;
 import com.example.demo.domain.role.Role;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -11,7 +12,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "users")
 public class User extends AbstractEntity {
-
+  @GeneratedValue(generator = "uuid2")
+  @GenericGenerator(name = "uuid2", strategy = "uuid2")
+  @Column(columnDefinition = "uuid", name = "user_id", updatable = false, nullable = false)
+  private UUID userId;
   @Column(name = "first_name")
   private String firstName;
 
@@ -34,11 +38,20 @@ public class User extends AbstractEntity {
 
   public User(UUID id, String firstName, String lastName, String email, String password, Set<Role> roles) {
     super(id);
+    this.userId = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.password = password;
     this.roles = roles;
+  }
+
+  public UUID getUserId() {
+    return userId;
+  }
+
+  public void setUserId(UUID userId) {
+    this.userId = userId;
   }
 
   public String getFirstName() {

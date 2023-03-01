@@ -1,13 +1,5 @@
 package com.example.demo.core.exception;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -19,6 +11,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MultipartException;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 @AllArgsConstructor
@@ -38,9 +39,10 @@ public class CustomGlobalExceptionHandler {
 
   @ExceptionHandler({NoSuchElementException.class})
   @ResponseStatus(value = HttpStatus.NOT_FOUND)
-  public ResponseError handleNoSuchElement() {
+  public ResponseError handleNoSuchElement(Throwable e) {
     Map<String, String> errors = new HashMap<>();
     errors.put("element", "Element wurde nicht gefunden");
+    e.printStackTrace();
     return new ResponseError().setTimeStamp(LocalDate.now())
                               .setErrors(errors)
                               .build();
@@ -51,6 +53,7 @@ public class CustomGlobalExceptionHandler {
   public ResponseError handleUsernameNotFound(Throwable e) {
     Map<String, String> errors = new HashMap<>();
     errors.put("username", String.format("Email %s wurde nicht gefunden", e.getMessage()));
+    e.printStackTrace();
     return new ResponseError().setTimeStamp(LocalDate.now())
                               .setErrors(errors)
                               .build();
@@ -61,6 +64,7 @@ public class CustomGlobalExceptionHandler {
   public ResponseError handleHttp(Throwable e) {
     Map<String, String> errors = new HashMap<>();
     errors.put("status", e.getMessage());
+    e.printStackTrace();
     return new ResponseError().setTimeStamp(LocalDate.now())
                               .setErrors(errors)
                               .build();
@@ -71,6 +75,7 @@ public class CustomGlobalExceptionHandler {
   public ResponseError handleMultipartException(Throwable e) {
     Map<String, String> errors = new HashMap<>();
     errors.put("multipart", e.getMessage());
+    e.printStackTrace();
     return new ResponseError().setTimeStamp(LocalDate.now())
                               .setErrors(errors)
                               .build();
@@ -81,6 +86,7 @@ public class CustomGlobalExceptionHandler {
   public ResponseError handleFileNotFound(Throwable e) {
     Map<String, String> errors = new HashMap<>();
     errors.put("file", e.getMessage());
+    e.printStackTrace();
     return new ResponseError().setTimeStamp(LocalDate.now())
                               .setErrors(errors)
                               .build();
@@ -91,6 +97,7 @@ public class CustomGlobalExceptionHandler {
   public ResponseError handleIOException(Throwable e) {
     Map<String, String> errors = new HashMap<>();
     errors.put("ioException", e.getMessage());
+    e.printStackTrace();
     return new ResponseError().setTimeStamp(LocalDate.now())
                               .setErrors(errors)
                               .build();
@@ -101,6 +108,7 @@ public class CustomGlobalExceptionHandler {
   public ResponseError handleRuntimeException(Throwable e) {
     Map<String, String> errors = new HashMap<>();
     errors.put("runtimeException", e.getMessage());
+    e.printStackTrace();
     return new ResponseError().setTimeStamp(LocalDate.now())
                               .setErrors(errors)
                               .build();
@@ -110,6 +118,7 @@ public class CustomGlobalExceptionHandler {
     public ResponseError handleEventNotFound(Throwable e) {
         Map<String, String> errors = new HashMap<>();
         errors.put("event", e.getMessage());
+        e.printStackTrace();
         return new ResponseError().setTimeStamp(LocalDate.now())
                                 .setErrors(errors)
                                 .build();
