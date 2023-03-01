@@ -57,7 +57,10 @@ public class EventUserQueryController {
 
     @GetMapping("/event/{eventId}")
     @Operation(summary = "Get all participants in an event")
-    public ResponseEntity<String> getAllParticipantsInEvent(@PathVariable("eventId") UUID eventId, Principal requester) {
+    public ResponseEntity<String> getAllParticipantsInEvent(@PathVariable("eventId") UUID eventId,
+                                                            @RequestParam("page") int page,
+                                                            @RequestParam("pageLength") int pageLength,
+                                                            Principal requester) {
         User user = userQueryService.findByEmail(requester.getName());
         boolean isUserAllowedToPerformRequest = eventUserQueryService.isUserAllowedToGetEventParticipants(eventId, user);
         log.info(String.format("Getting all participants for event(%s). Request started by userId(%s)", eventId.toString(), user.getUserId().toString()));
@@ -77,7 +80,7 @@ public class EventUserQueryController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .header(HttpHeaders.CONTENT_TYPE, "application/json")
-                .body(gson.toJson(userMapper.toDTOs(eventUserQueryService.getAllParticipantsOfEvent(eventId))));
+                .body(gson.toJson(userMapper.toDTOs(eventUserQueryService.getAllParticipantsOfEvent(eventId, page, pageLength))));
     }
 }
 

@@ -8,6 +8,7 @@ import com.example.demo.domain.eventUser.EventUserRepository;
 import com.example.demo.domain.user.User;
 import com.example.demo.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -68,11 +69,11 @@ public class EventUserQueryService extends AbstractQueryServiceImpl<EventUser> {
         return false;
     }
 
-    public List<User> getAllParticipantsOfEvent(UUID eventId) {
+    public List<User> getAllParticipantsOfEvent(UUID eventId, int page, int pageLength) {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new NoSuchElementException("Unable to find event with id: " + eventId.toString()));
 
-        return ((EventUserRepository) repository).findAllByEvent(event)
+        return ((EventUserRepository) repository).findAllByEvent(event, PageRequest.of(page, pageLength))
                 .stream()
                 .map(EventUser::getUser)
                 .toList();
