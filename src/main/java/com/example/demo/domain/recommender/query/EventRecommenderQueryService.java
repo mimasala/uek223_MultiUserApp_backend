@@ -82,11 +82,16 @@ public class EventRecommenderQueryService {
             return false;
         }
 
-        int currentUserOffset;
+        int currentUserOffset = 0;
         try (Jedis jedis = jedisPool.getJedisPool().getResource()) {
             currentUserOffset = Integer.parseInt(jedis.get("user_recs_"+userId));
+        } catch(RuntimeException ignore) {
+            log.debug("Miss on redis cache with userid");
+        }
+        try (Jedis jedis = jedisPool.getJedisPool().getResource()) {
             jedis.set("user_recs_"+userId, String.valueOf(userOwnedEvents.size()+currentUserOffset));
         }
+
         System.out.println("Cleaning out people");
         List<String> potentiallyCleanedRecs = gorse.getRecommend(userId, page, pageLength, userOwnedEvents.size()+currentUserOffset);
 
