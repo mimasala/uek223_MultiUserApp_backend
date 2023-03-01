@@ -18,5 +18,6 @@ public class EventDTO extends AbstractDTO {
     private LocalDateTime endDate;
     private String location;
     private String description;
+    private String imageUrl;
     private UserDTO eventOwner;
 }
