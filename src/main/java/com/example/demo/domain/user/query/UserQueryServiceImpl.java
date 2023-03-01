@@ -1,19 +1,15 @@
 package com.example.demo.domain.user.query;
 
-import com.example.demo.core.generic.AbstractCommandServiceImpl;
 import com.example.demo.core.generic.AbstractQueryServiceImpl;
 import com.example.demo.domain.user.User;
 import com.example.demo.domain.user.UserDetailsImpl;
 import com.example.demo.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 @Service
 public class UserQueryServiceImpl extends AbstractQueryServiceImpl<User> implements UserQueryService {
@@ -30,4 +26,9 @@ public class UserQueryServiceImpl extends AbstractQueryServiceImpl<User> impleme
                 .orElseThrow(() -> new UsernameNotFoundException(email));
     }
 
+    @Override
+    public User findByEmail(String name) {
+        return ((UserRepository) repository).findByEmail(name)
+                .orElseThrow(() -> new NoSuchElementException("Unable to find provided email."));
+    }
 }

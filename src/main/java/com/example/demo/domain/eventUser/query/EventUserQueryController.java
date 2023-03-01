@@ -1,16 +1,26 @@
 package com.example.demo.domain.eventUser.query;
 
+import com.example.demo.core.adapter.LocalDateTimeAdapter;
 import com.example.demo.domain.event.Event;
 import com.example.demo.domain.event.dto.EventDTO;
 import com.example.demo.domain.event.dto.EventMapper;
+import com.example.demo.domain.user.User;
+import com.example.demo.domain.user.dto.UserMapper;
+import com.example.demo.domain.user.query.UserQueryService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,13 +31,16 @@ import java.util.UUID;
 @RequestMapping("/eventUser")
 public class EventUserQueryController {
     private final EventUserQueryService eventUserQueryService;
-
+    private final UserQueryService userQueryService;
     private final EventMapper eventMapper;
+    private final UserMapper userMapper;
 
     @Autowired
-    public EventUserQueryController(EventUserQueryService eventUserQueryService, EventMapper eventMapper) {
+    public EventUserQueryController(EventUserQueryService eventUserQueryService, UserQueryService userQueryService, EventMapper eventMapper, UserMapper userMapper) {
         this.eventUserQueryService = eventUserQueryService;
+        this.userQueryService = userQueryService;
         this.eventMapper = eventMapper;
+        this.userMapper = userMapper;
     }
 
     @GetMapping("/{userId}")
@@ -41,4 +54,30 @@ public class EventUserQueryController {
         return ResponseEntity.ok()
                 .body(eventMapper.toDTOs(eventsOfUser));
     }
+
+    @GetMapping("/event/{eventId}")
+    @Operation(summary = "Get all participants in an event")
+    public ResponseEntity<String> getAllParticipantsInEvent(@PathVariable("eventId") UUID eventId, Principal requester) {
+        User user = userQueryService.findByEmail(requester.getName());
+        boolean isUserAllowedToPerformRequest = eventUserQueryService.isUserAllowedToGetEventParticipants(eventId, user);
+        log.info(String.format("Getting all participants for event(%s). Request started by userId(%s)", eventId.toString(), user.getUserId().toString()));
+
+
+        if(!isUserAllowedToPerformRequest) {
+            log.error("Illegal participants list request by user: " + user.getUserId());
+            return ResponseEntity.status(403)
+                    .body("User doesn't meet any of the following criteria: 1) User is admin 2) User isn't event owner");
+        }
+
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .create();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.CONTENT_TYPE, "application/json")
+                .body(gson.toJson(userMapper.toDTOs(eventUserQueryService.getAllParticipantsOfEvent(eventId))));
+    }
 }
+

@@ -24,7 +24,7 @@ public class UserCommandServiceImpl extends AbstractCommandServiceImpl<User> imp
     this.passwordEncoder = passwordEncoder;
     this.client = client;
   }
-  
+
   @Override
   public User register(User user) throws IOException {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
