@@ -9,11 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.security.SecureRandom;
 import java.util.Collections;
-import java.util.Random;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.UUID;
 
 @Service
 public class UserCommandServiceImpl extends AbstractCommandServiceImpl<User> implements UserCommandService {
@@ -27,11 +24,11 @@ public class UserCommandServiceImpl extends AbstractCommandServiceImpl<User> imp
     this.passwordEncoder = passwordEncoder;
     this.client = client;
   }
-
-
+  
   @Override
   public User register(User user) throws IOException {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
+    user.setUserId(UUID.randomUUID());
     user = save(user);
 
     client.insertUser(new io.gorse.gorse4j.User(
@@ -40,11 +37,4 @@ public class UserCommandServiceImpl extends AbstractCommandServiceImpl<User> imp
 
     return user;
   }
-
-  public Stream<Character> getRandomSpecialChars(int count) {
-    Random random = new SecureRandom();
-    IntStream specialChars = random.ints(count, 33, 45);
-    return specialChars.mapToObj(data -> (char) data);
-  }
-
 }
