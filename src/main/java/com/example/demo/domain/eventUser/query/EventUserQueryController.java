@@ -45,7 +45,7 @@ public class EventUserQueryController {
 
     @GetMapping("/{userId}")
     @Operation(summary = "Get Events for User")
-    @PreAuthorize("@userPermissionEvaluator.isUser(authentication.principal.user, #userId)) || hasAuthority('ADMIN_READ')")
+    @PreAuthorize("@userPermissionEvaluator.isUser(authentication.principal.user, #userId) || hasAuthority('ADMIN_READ')")
     public ResponseEntity<List<EventDTO>> getAllEventsOfUser(@PathVariable("userId") UUID userId,
                                                              @RequestParam(value = "event_start", required = false) Optional<Integer> eventStart) {
         log.info(String.format("Getting all events for user(%s)", userId.toString()));

@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -77,12 +78,24 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
         return HttpStatus.OK;
     }
 
-    StatusOr<EventUser> registerUserForEvent(UUID userId, UUID eventId) throws IOException {
-        List<Feedback> feedbacks = List.of(
-                new Feedback("registerEvent", userId.toString(), eventId.toString(),
-                        LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyy-MM-dd hh:mm:ss +01:00")))
-        );
-        client.insertFeedback(feedbacks);
+    /**
+     * Register a user for an event
+     * @param userId Which user should be registered
+     * @param eventId For which event should the user be registered
+     * @param shouldAddFeedbacks Whether or not this enlisment should be used for the recommendation engine.
+     *                           -> If the user performed the action, then yes
+     *                           -> In other cases, another personen enlisted the user, so the feedback should not be used.
+     * @return Either an error code or if everything went well, the created enlistment
+     * @throws IOException Gets thrown if something goes wrong in inserting the feedback
+     */
+    StatusOr<EventUser> registerUserForEvent(UUID userId, UUID eventId, boolean shouldAddFeedbacks) throws IOException {
+        if(shouldAddFeedbacks) {
+            List<Feedback> feedbacks = List.of(
+                    new Feedback("registerEvent", userId.toString(), eventId.toString(),
+                            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyy-MM-dd hh:mm:ss +01:00")))
+            );
+            client.insertFeedback(feedbacks);
+        }
 
         Optional<User> user = userRepository.findById(userId);
         Optional<Event> event = eventRepository.findById(eventId);
@@ -126,5 +139,16 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
             }
         }
         return "Can't create error message - HttpStatus is not known";
+    }
+
+    public Event createManyEnrollmentsForEvent(UUID eventId, UUID[] userIds) throws IOException {
+        for(UUID userId: userIds) {
+            registerUserForEvent(userId, eventId, false);
+        }
+
+        return eventRepository.findById(eventId).orElseThrow(() -> {
+            log.error("Tried to create enrollments for non-existing event");
+            return new NoSuchElementException("Unable to find event with id: " + eventId.toString());
+        });
     }
 }
