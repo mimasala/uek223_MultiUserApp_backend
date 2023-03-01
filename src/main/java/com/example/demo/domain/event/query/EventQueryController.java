@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -20,6 +21,8 @@ import java.util.UUID;
 public class EventQueryController {
     private final EventQueryService eventQueryService;
     private final EventMapper eventMapper;
+
+
     @Autowired
     public EventQueryController(EventQueryService eventQueryService, EventMapper eventMapper) {
         this.eventQueryService = eventQueryService;
@@ -27,6 +30,7 @@ public class EventQueryController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN_READ')")
     @Operation(summary = "Get all events")
     public ResponseEntity<List<EventDTO>> getEvents(@RequestParam(value = "user_id", required = false) Optional<UUID> userId) {
         userId.ifPresentOrElse(uuid -> log.info("Getting all events for user: " + uuid.toString()),

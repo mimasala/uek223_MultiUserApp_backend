@@ -7,6 +7,7 @@ import com.example.demo.domain.event.Event;
 import com.example.demo.domain.event.EventRepository;
 import com.example.demo.domain.eventUser.EventUserRepository;
 import com.example.demo.domain.recommender.Gorse;
+import com.example.demo.domain.user.query.UserQueryService;
 import io.gorse.gorse4j.Feedback;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,14 @@ public class EventQueryService extends AbstractQueryServiceImpl<Event> {
     private final Gorse client;
     private final EventUserRepository eventUserRepository;
 
+    private final UserQueryService userQueryService;
+
     @Autowired
-    public EventQueryService(EventRepository repository, Gorse client, EventUserRepository eventUserRepository) {
+    public EventQueryService(EventRepository repository, Gorse client, EventUserRepository eventUserRepository, UserQueryService userQueryService) {
         super(repository);
         this.client = client;
         this.eventUserRepository = eventUserRepository;
+        this.userQueryService = userQueryService;
     }
     public boolean hasCapacityLeftForEnrollment(Event event) {
         return eventUserRepository.findAllByEvent(event).size() < event.getParticipantsLimit();
@@ -42,10 +46,10 @@ public class EventQueryService extends AbstractQueryServiceImpl<Event> {
                 .toList();
     }
 
-    public Event getEvent(UUID id, String userId) throws IOException {
-        log.info(String.format("Up-serting viewing-feedback of event(%s) by user(%s)", id.toString(), userId));
+    public Event getEvent(UUID id, String email) throws IOException {
+        log.info(String.format("Up-serting viewing-feedback of event(%s) by user(%s)", id.toString(), email));
         List<Feedback> feedbacks = List.of(
-                new Feedback("viewEvent", userId, id.toString(),
+                new Feedback("viewEvent", userQueryService.findByEmail(email).getId().toString(), id.toString(),
                         LocalDateTime.now().toString())
         );
         client.insertFeedback(feedbacks);

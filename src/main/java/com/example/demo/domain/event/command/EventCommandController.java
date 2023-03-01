@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,7 +26,7 @@ public class EventCommandController {
         this.eventMapper = eventMapper;
     }
 
-    @PostMapping("")
+    @PostMapping
     @Operation(summary = "Create event")
     public ResponseEntity<EventDTO> createEvent(@Valid @RequestBody EventDTO eventDTO) {
         log.info("Creating new event.");
@@ -35,17 +36,19 @@ public class EventCommandController {
                         .createEvent(eventMapper.fromDTO(eventDTO))));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{eventId}")
+    @PreAuthorize("hasAuthority('ADMIN_MODIFY') || @userPermissionEvaluator.isEventOwner(authentication.principal.user, #eventId)")
     @Operation(summary = "Update event")
-    public ResponseEntity<EventDTO> updateEvent(@Valid @RequestBody EventDTO eventDTO, @PathVariable UUID id) {
+    public ResponseEntity<EventDTO> updateEvent(@Valid @RequestBody EventDTO eventDTO, @PathVariable("eventId") UUID eventId) {
         log.info("Update an event");
         return ResponseEntity
                 .ok()
                 .body(eventMapper.toDTO(eventCommandService
-                        .updateEvent(eventMapper.fromDTO(eventDTO), id)));
+                        .updateEvent(eventMapper.fromDTO(eventDTO), eventId)));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN_MODIFY') || @userPermissionEvaluator.isEventOwner(authentication.principal.user, #eventId)")
     @Operation(summary = "Delete event")
     public ResponseEntity<UUID> deleteEvent(@PathVariable UUID id) {
         log.info("Deleted event with id: " + id.toString());

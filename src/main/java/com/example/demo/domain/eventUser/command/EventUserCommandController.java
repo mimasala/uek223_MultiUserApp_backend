@@ -34,7 +34,8 @@ public class EventUserCommandController {
 
     @PostMapping
     @Operation(summary = "Create EventUser")
-//    @PreAuthorize("hasRole('ADMIN') || @userPermissionEvaluator.isUser(authentication.principal.user, #userId)")
+    @PreAuthorize("hasAuthority('USER_MODIFY') || @userPermissionEvaluator.isUser(authentication.principal.user, #userId)" +
+            "|| @userPermissionEvaluator.isEventOwner(authentication.principal.user, #eventId)")
     public ResponseEntity<String> signUserUpForEvent(@RequestParam("user_id") UUID userId,
                                                      @RequestParam("event_id") UUID eventId) throws NotCheckedException, IOException {
         log.info(String.format("Enrolling user: %s in event %s", userId.toString(), eventId.toString()));
@@ -59,7 +60,8 @@ public class EventUserCommandController {
 
     @DeleteMapping
     @Operation(summary = "Delete EventUser")
-    @PreAuthorize("hasRole('ADMIN') || (@userPermissionEvaluator.isUser(authentication.principal.user, #userId) && @userPermissionEvaluator.isEventOwner(authentication.principal.user, #eventId))")
+    @PreAuthorize("hasRole('ADMIN') || (@userPermissionEvaluator.isUser(authentication.principal.user, #userId) ||" +
+            "@userPermissionEvaluator.isEventOwner(authentication.principal.user, #eventId))")
     public ResponseEntity<String> deleteUserFromEvent(@RequestParam("user_id") UUID userId,
                                                       @RequestParam("event_id") UUID eventId) {
         log.info(String.format("De-enrolling user: %s and event: %s", userId.toString(), eventId.toString()));
