@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class EventDTO extends AbstractDTO {
     private String eventName;
-    private Integer numberOfCurrentParticipants;
     private Integer participantsLimit;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
