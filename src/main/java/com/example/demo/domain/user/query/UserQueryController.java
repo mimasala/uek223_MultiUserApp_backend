@@ -1,12 +1,8 @@
 package com.example.demo.domain.user.query;
 
 import com.example.demo.domain.user.User;
-import com.example.demo.domain.user.command.UserCommandService;
 import com.example.demo.domain.user.dto.UserDTO;
 import com.example.demo.domain.user.dto.UserMapper;
-
-import java.util.UUID;
-
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.UUID;
 
 @Validated
 @RestController
@@ -34,9 +33,18 @@ public class UserQueryController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get User")
-    @PreAuthorize("hasAuthority('USER_READ')")
+    @PreAuthorize("hasAuthority('ADMIN_READ') || @userPermissionEvaluator.isUser(authentication.principal.user, #userId)")
     public ResponseEntity<UserDTO> retrieveById(@PathVariable UUID id) {
         User user = userQueryService.findById(id);
         return new ResponseEntity<>(userMapper.toDTO(user), HttpStatus.OK);
+    }
+
+    @GetMapping
+    @Operation(summary = "Get all users")
+    @PreAuthorize("hasAuthority('ADMIN_READ')")
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        List<User> allUsers = userQueryService.findAll();
+
+        return new ResponseEntity<>(userMapper.toDTOs(allUsers), HttpStatus.OK);
     }
 }
