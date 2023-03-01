@@ -7,13 +7,19 @@ import com.example.demo.domain.event.EventRepository;
 import com.example.demo.domain.event.query.EventQueryService;
 import com.example.demo.domain.eventUser.EventUser;
 import com.example.demo.domain.eventUser.EventUserRepository;
+import com.example.demo.domain.recommender.Gorse;
 import com.example.demo.domain.user.User;
 import com.example.demo.domain.user.UserRepository;
+import io.gorse.gorse4j.Feedback;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,13 +31,16 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
     private final EventUserRepository eventUserRepository;
     private final EventQueryService eventQueryService;
 
+    private final Gorse client;
+
     @Autowired
-    protected EventUserCommandService(EventUserRepository repository, UserRepository userRepository, EventRepository eventRepository, EventUserRepository eventUserRepository, EventQueryService eventQueryService) {
+    protected EventUserCommandService(EventUserRepository repository, UserRepository userRepository, EventRepository eventRepository, EventUserRepository eventUserRepository, EventQueryService eventQueryService, Gorse client) {
         super(repository);
         this.userRepository = userRepository;
         this.eventRepository = eventRepository;
         this.eventUserRepository = eventUserRepository;
         this.eventQueryService = eventQueryService;
+        this.client = client;
     }
 
     HttpStatus convertNumberOfDeletedEntitiesToStatus(int numberOfEntities){
@@ -68,7 +77,13 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
         return HttpStatus.OK;
     }
 
-    StatusOr<EventUser> registerUserForEvent(UUID userId, UUID eventId) {
+    StatusOr<EventUser> registerUserForEvent(UUID userId, UUID eventId) throws IOException {
+        List<Feedback> feedbacks = List.of(
+                new Feedback("registerEvent", userId.toString(), eventId.toString(),
+                        LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyy-MM-dd hh:mm:ss +01:00")))
+        );
+        client.insertFeedback(feedbacks);
+
         Optional<User> user = userRepository.findById(userId);
         Optional<Event> event = eventRepository.findById(eventId);
 
