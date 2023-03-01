@@ -27,6 +27,7 @@ public class Event extends AbstractEntity {
     private LocalDateTime endDate;
     private String location;
     private String description;
+    private String imageUrl;
     @ManyToOne(fetch = FetchType.EAGER)
     private User eventOwner;
 }
