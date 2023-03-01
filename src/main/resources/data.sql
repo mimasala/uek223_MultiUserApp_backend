@@ -68,9 +68,9 @@ VALUES
     ('d1cc3232-9e80-4c0d-87c9-e2c36ae8a3c2', '0d8fa44c-54fd-4cd0-ace9-2a7da57992de', '0309992f-5338-4d62-bd9b-1483aeb84e3d'),
     ('9a877790-09fa-4f5c-bd99-05726b210938', '0d8fa44c-54fd-4cd0-ace9-2a7da57992de', 'a84f8e62-f5d3-46a8-9a41-84684546f6b9');
 
-DELETE FROM items WHERE true;
+DELETE FROM gorse_items WHERE true;
 
-INSERT INTO items
+INSERT INTO gorse_items
 (item_id, is_hidden, categories, time_stamp, labels, comment)
 VALUES
     ('300f6ca9-940e-455c-b54e-6ab415cb405e', false, '["Fun", "Lovely", "Categories"]', '2023-02-26 04:03:28.000000 +00:00', '["Fun", "Lovely", "Categories"]', ''),
