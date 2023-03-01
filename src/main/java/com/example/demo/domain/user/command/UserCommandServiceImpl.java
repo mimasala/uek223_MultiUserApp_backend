@@ -21,7 +21,6 @@ public class UserCommandServiceImpl extends AbstractCommandServiceImpl<User> imp
 
     private final PasswordEncoder passwordEncoder;
     private final Gorse client;
-
     private final EventUserRepository eventUserRepository;
     private final EventRepository eventRepository;
 
