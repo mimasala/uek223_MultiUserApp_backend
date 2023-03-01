@@ -23,6 +23,8 @@ public interface EventUserRepository extends AbstractRepository<EventUser> {
 
     List<EventUser> findAllByEvent(Event event, PageRequest pageReqest);
 
+    boolean existsByUserAndEvent(User user, Event event);
+
     List<EventUser> findAllByEvent(Event event);
 
     void deleteByEvent(Event event);

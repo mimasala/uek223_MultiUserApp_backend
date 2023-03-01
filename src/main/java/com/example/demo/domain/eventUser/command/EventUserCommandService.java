@@ -78,8 +78,12 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
             return HttpStatus.TOO_MANY_REQUESTS;
         }
 
-        if( user.get().getRoles().stream().anyMatch(role -> role.getName().equals("ADMIN"))) {
+        if (user.get().getRoles().stream().anyMatch(role -> role.getName().equals("ADMIN"))) {
             return HttpStatus.BAD_REQUEST;
+        }
+
+        if (eventUserRepository.existsByUserAndEvent(user.get(), event.get())) {
+            return HttpStatus.CONFLICT;
         }
 
         return HttpStatus.OK;
@@ -147,6 +151,9 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
             }
             case BAD_REQUEST -> {
                 return "Admins aren't allowed to enlist in an event. Please use a personal account.";
+            }
+            case CONFLICT -> {
+                return "The requested user is already enrolled in the event.";
             }
         }
         return "Can't create error message - HttpStatus is not known";
