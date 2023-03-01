@@ -45,7 +45,7 @@ public class EventUserQueryController {
 
     @GetMapping("/{userId}")
     @Operation(summary = "Get Events for User")
-    @PreAuthorize("(hasAuthority('USER_READ') && @userPermissionEvaluator.isUser(authentication.principal.user, #userId)) || hasRole('ADMIN')")
+    @PreAuthorize("@userPermissionEvaluator.isUser(authentication.principal.user, #userId)) || hasAuthority('ADMIN_READ')")
     public ResponseEntity<List<EventDTO>> getAllEventsOfUser(@PathVariable("userId") UUID userId,
                                                              @RequestParam(value = "event_start", required = false) Optional<Integer> eventStart) {
         log.info(String.format("Getting all events for user(%s)", userId.toString()));
@@ -57,6 +57,7 @@ public class EventUserQueryController {
 
     @GetMapping("/event/{eventId}")
     @Operation(summary = "Get all participants in an event")
+    @PreAuthorize("@userPermissionEvaluator.isEventOwner(authentication.principal.user, #eventId) || hasAuthority('ADMIN_READ')")
     public ResponseEntity<String> getAllParticipantsInEvent(@PathVariable("eventId") UUID eventId,
                                                             @RequestParam("page") int page,
                                                             @RequestParam("pageLength") int pageLength,
