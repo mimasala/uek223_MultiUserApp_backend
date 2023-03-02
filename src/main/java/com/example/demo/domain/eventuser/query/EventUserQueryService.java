@@ -31,26 +31,20 @@ public class EventUserQueryService extends AbstractQueryServiceImpl<EventUser> {
         return repository
                 .findAll()
                 .stream()
+                .filter(eventUser -> eventUser.getUser().getUserId().equals(user))
                 .map(EventUser::getEvent)
                 .toList();
     }
 
     List<Event> getAllEventsOfUser(UUID userId,
-                                   Optional<Integer> event_start) {
+                                   Optional<Integer> eventStart) {
         return getAllEventsOfUser(userId)
                 .stream()
                 .filter(event -> event.getStartDate()
-                        .isAfter(LocalDateTime.ofEpochSecond(event_start.orElse(0), 0, ZoneOffset.of("+1"))))
+                        .isAfter(LocalDateTime.ofEpochSecond(eventStart.orElse(0), 0, ZoneOffset.of("+1"))))
                 .toList();
     }
 
-    private boolean areAnyUserRoles(String roleName, User user) {
-        return !user.getRoles()
-                .stream()
-                .filter(role -> role.getName().equals(roleName))
-                .toList()
-                .isEmpty();
-    }
 
     public List<User> getAllParticipantsOfEvent(UUID eventId, int page, int pageLength) {
         Event event = eventRepository.findById(eventId)
