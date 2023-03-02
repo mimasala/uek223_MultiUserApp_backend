@@ -39,7 +39,7 @@ public class EventCommandService {
 
     public Event createEvent(Event fromDTO, Principal principal) {
         publishEventCreationEvent(fromDTO);
-        fromDTO.setId(userQueryService.findByEmail(principal.getName()).getId());
+        fromDTO.setEventOwner(userQueryService.findByEmail(principal.getName()));
         return eventRepository.save(fromDTO);
     }
 
