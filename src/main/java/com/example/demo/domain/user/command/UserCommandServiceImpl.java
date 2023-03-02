@@ -58,7 +58,7 @@ public class UserCommandServiceImpl extends AbstractCommandServiceImpl<User> imp
 
     @Override
     public User updateUserById(UUID id, User fromDTO) {
-        Optional<User> toUpdateUser = ((UserRepository) repository).findById(id);
+        Optional<User> toUpdateUser = repository.findById(id);
         if(toUpdateUser.isEmpty()) {
             throw new NoSuchElementException("Unable to find the provided user. Use the POST endpoint to create one.");
         }
