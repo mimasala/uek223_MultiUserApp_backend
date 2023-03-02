@@ -49,7 +49,7 @@ public class EventCommandController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN_MODIFY') || @userPermissionEvaluator.isEventOwner(authentication.principal.user, #eventId)")
+    @PreAuthorize("hasAuthority('ADMIN_MODIFY') || @userPermissionEvaluator.isEventOwner(authentication.principal.user, #id)")
     @Operation(summary = "Delete event")
     public ResponseEntity<UUID> deleteEvent(@PathVariable UUID id) {
         log.info("Deleted event with id: " + id.toString());
