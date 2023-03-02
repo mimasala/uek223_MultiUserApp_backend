@@ -123,7 +123,7 @@ public class EventRecommenderQueryService {
                 .stream()
                 .map(event -> new EventRecommendation(
                         isCurrentUserEnrolledInEvent(userId, event),
-                        event, UUID.fromString(userId)))
+                        event))
                 .distinct()
                 .toList();
     }

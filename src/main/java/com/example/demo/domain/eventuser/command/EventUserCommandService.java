@@ -4,7 +4,6 @@ import com.example.demo.core.generic.AbstractCommandServiceImpl;
 import com.example.demo.core.generic.StatusOr;
 import com.example.demo.domain.event.Event;
 import com.example.demo.domain.event.EventRepository;
-import com.example.demo.domain.event.query.EventQueryService;
 import com.example.demo.domain.eventuser.EventUser;
 import com.example.demo.domain.eventuser.EventUserRepository;
 import com.example.demo.domain.recommender.Gorse;
@@ -30,17 +29,15 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
     private final UserRepository userRepository;
     private final EventRepository eventRepository;
     private final EventUserRepository eventUserRepository;
-    private final EventQueryService eventQueryService;
 
     private final Gorse client;
 
     @Autowired
-    protected EventUserCommandService(EventUserRepository repository, UserRepository userRepository, EventRepository eventRepository, EventUserRepository eventUserRepository, EventQueryService eventQueryService, Gorse client) {
+    protected EventUserCommandService(EventUserRepository repository, UserRepository userRepository, EventRepository eventRepository, EventUserRepository eventUserRepository, Gorse client) {
         super(repository);
         this.userRepository = userRepository;
         this.eventRepository = eventRepository;
         this.eventUserRepository = eventUserRepository;
-        this.eventQueryService = eventQueryService;
         this.client = client;
     }
 
@@ -78,6 +75,7 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
             return HttpStatus.BAD_REQUEST;
         }
 
+        // the linter issues here are not a point of concer. We check in the areEventAndUserNotFound method if they are present or not,
         if (eventUserRepository.existsByUserAndEvent(user.get(), event.get())) {
             return HttpStatus.CONFLICT;
         }

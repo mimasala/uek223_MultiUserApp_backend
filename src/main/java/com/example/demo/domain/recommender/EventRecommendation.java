@@ -21,7 +21,7 @@ public class EventRecommendation {
     private UUID eventId;
 
 
-    public EventRecommendation(boolean isCurrentUserEnrolled, Event event, UUID userId) {
+    public EventRecommendation(boolean isCurrentUserEnrolled, Event event) {
         this.isCurrentUserEnrolled = isCurrentUserEnrolled;
         eventName = event.getEventName();
         imageUrl = "https://hips.hearstapps.com/hmg-prod/images/wolf-dog-breeds-siberian-husky-1570411330.jpg? er,top&resize=1200:*";
