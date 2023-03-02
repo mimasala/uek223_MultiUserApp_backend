@@ -80,4 +80,5 @@ INSERT INTO gorse_items
 VALUES
     ('300f6ca9-940e-455c-b54e-6ab415cb405e', false, '["Fun", "Lovely", "Categories"]', '2023-02-26 04:03:28.000000 +00:00', '["Fun", "Lovely", "Categories"]', ''),
     ('d1cc3232-9e80-4c0d-87c9-e2c36ae8a3c2', false, '["Fun", "Lovely", "Categories"]', '2023-02-26 04:03:28.000000 +00:00', '["Fun", "Lovely", "Categories"]', ''),
-    ('9a877790-09fa-4f5c-bd99-05726b210938', false, '["Fun", "Lovely", "Categories"]', '2023-02-26 04:03:28.000000 +00:00', '["Fun", "Lovely", "Categories"]', '');
+    ('9a877790-09fa-4f5c-bd99-05726b210938', false, '["Fun", "Lovely", "Categories"]', '2023-02-26 04:03:28.000000 +00:00', '["Fun", "Lovely", "Categories"]', ''),
+    ('76e57334-5547-4024-b4ee-db19bee7779b', false, '["Fun", "Lovely", "Categories"]', '2023-02-26 04:03:28.000000 +00:00', '["Fun", "Lovely", "Categories"]', '');
