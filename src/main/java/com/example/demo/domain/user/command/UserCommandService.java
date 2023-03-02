@@ -10,4 +10,6 @@ public interface UserCommandService extends AbstractCommandService<User> {
     User register(User user) throws IOException;
 
     void deleteUser(UUID id);
+
+    User updateUserById(UUID id, User fromDTO);
 }

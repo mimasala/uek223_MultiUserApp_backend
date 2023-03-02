@@ -43,7 +43,7 @@ public class UserCommandController {
             "hasAuthority('USER_MODIFY') && @userPermissionEvaluator.isUserAboveAge(authentication.principal.user,18)")
     @Operation(summary = "Update User")
     public ResponseEntity<UserDTO> updateById(@PathVariable UUID id, @Valid @RequestBody UserDTO userDTO) {
-        User user = userCommandService.updateById(id, userMapper.fromDTO(userDTO));
+        User user = userCommandService.updateUserById(id, userMapper.fromDTO(userDTO));
         return new ResponseEntity<>(userMapper.toDTO(user), HttpStatus.OK);
     }
 

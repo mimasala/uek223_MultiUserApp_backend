@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -53,5 +54,15 @@ public class UserCommandServiceImpl extends AbstractCommandServiceImpl<User> imp
        eventRepository.deleteByEventOwner(user);
        eventUserRepository.deleteByUser(user);
        repository.deleteById(id);
+    }
+
+    @Override
+    public User updateUserById(UUID id, User fromDTO) {
+        Optional<User> toUpdateUser = ((UserRepository) repository).findById(id);
+        if(toUpdateUser.isEmpty()) {
+            throw new NoSuchElementException("Unable to find the provided user. Use the POST endpoint to create one.");
+        }
+        fromDTO.setPassword(toUpdateUser.get().getPassword()); //Don't set password to null.
+        return repository.save(fromDTO);
     }
 }
