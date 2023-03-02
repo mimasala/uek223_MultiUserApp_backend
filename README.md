@@ -18,7 +18,7 @@ In this Repository, we will implement the Event Entity for the Project.
 
 - [x] Event Entity
   - [x] CRUD Operations
-- [ ] Recommendation System for users
+- [x] Recommendation System for users
 
 ## Usage
 We have implemented Swagger, where you can browse the API and test it.
