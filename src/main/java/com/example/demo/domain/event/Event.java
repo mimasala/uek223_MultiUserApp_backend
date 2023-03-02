@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 @Entity
 public class Event extends AbstractEntity {
     private String eventName;
-    private Integer participantsLimit;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String location;

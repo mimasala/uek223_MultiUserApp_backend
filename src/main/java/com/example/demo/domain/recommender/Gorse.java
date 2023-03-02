@@ -5,6 +5,7 @@ import io.gorse.gorse4j.Feedback;
 import io.gorse.gorse4j.Item;
 import io.gorse.gorse4j.RowAffected;
 import io.gorse.gorse4j.User;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Log4j2
 public class Gorse {
 
     private final String endpoint;
@@ -65,6 +67,7 @@ public class Gorse {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("n", String.valueOf(pageLength));
         parameters.put("offset", String.valueOf(pageLength * page + initialOffset));
+        log.info(String.format("Sending request to gorse with parameters: n(%d) offset(%d)", pageLength, pageLength * page + initialOffset));
         return List.of(this.request("GET", this.endpoint + "/api/recommend/" + userId, null, String[].class, parameters));
     }
 

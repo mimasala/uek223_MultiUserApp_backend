@@ -74,10 +74,6 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
             return HttpStatus.NOT_FOUND;
         }
 
-        if (!eventQueryService.hasCapacityLeftForEnrollment(event.get())) {
-            return HttpStatus.TOO_MANY_REQUESTS;
-        }
-
         if (user.get().getRoles().stream().anyMatch(role -> role.getName().equals("ADMIN"))) {
             return HttpStatus.BAD_REQUEST;
         }
@@ -114,6 +110,7 @@ public class EventUserCommandService extends AbstractCommandServiceImpl<EventUse
         HttpStatus validationStatus = getEventUserStatus(event, user);
 
         if (validationStatus.isError()) {
+            log.error("Request has wrong form. Failed with status: " + validationStatus.toString());
             return new StatusOr<>(validationStatus);
         }
 

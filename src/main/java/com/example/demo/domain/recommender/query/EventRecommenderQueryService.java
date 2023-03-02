@@ -74,6 +74,7 @@ public class EventRecommenderQueryService {
 
     private boolean replaceUserOwnedEvents(List<Event> allEvents, String userId, int page, int pageLength, int numberOfUserEventsRemovalAttemps) throws IOException {
         List<Event> userOwnedEvents = getUserOwnedEvents(allEvents, userId);
+        log.info("Found " + userOwnedEvents.size() + " events created by current user");
         allEvents.removeAll(userOwnedEvents);
 
         if (userOwnedEvents.isEmpty()) {
@@ -87,14 +88,14 @@ public class EventRecommenderQueryService {
         int currentUserOffset = 0;
         try (Jedis jedis = jedisPool.getJedisPool().getResource()) {
             currentUserOffset = Integer.parseInt(jedis.get("user_recs_" + userId));
+            log.info("Successfully fetched number of self events");
         } catch (RuntimeException ignore) {
-            log.debug("Miss on redis cache with userid");
+            log.info("Miss on redis cache with userid");
         }
         try (Jedis jedis = jedisPool.getJedisPool().getResource()) {
             jedis.set("user_recs_" + userId, String.valueOf(userOwnedEvents.size() + currentUserOffset));
         }
 
-        System.out.println("Cleaning out people");
         List<String> potentiallyCleanedRecs = gorse.getRecommend(userId, page, pageLength, userOwnedEvents.size() + currentUserOffset);
 
         allEvents.addAll(

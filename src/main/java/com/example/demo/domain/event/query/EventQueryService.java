@@ -35,10 +35,6 @@ public class EventQueryService extends AbstractQueryServiceImpl<Event> {
         this.userQueryService = userQueryService;
     }
 
-    public boolean hasCapacityLeftForEnrollment(Event event) {
-        return eventUserRepository.findAllByEvent(event).size() < event.getParticipantsLimit();
-    }
-
     public List<Event> getEvents(Optional<UUID> userId) {
         return repository
                 .findAll()

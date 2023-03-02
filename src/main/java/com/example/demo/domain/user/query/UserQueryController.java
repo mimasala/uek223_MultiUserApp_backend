@@ -57,7 +57,6 @@ public class UserQueryController {
 
     @GetMapping
     @Operation(summary = "Get all users")
-    @PreAuthorize("hasAuthority('ADMIN_READ')")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<User> allUsers = userQueryService.findAll();
 

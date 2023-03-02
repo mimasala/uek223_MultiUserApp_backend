@@ -43,23 +43,23 @@ VALUES ('d29e709c-0ff1-4f4c-a7ef-09f656c390f1', '2ebf301e-6c61-4076-98e3-2a38b31
 -- Create events
 
 INSERT INTO
-    events (id, description, end_date, event_name, location, participants_limit, start_date, event_owner_id)
+    events (id, description, end_date, event_name, location, start_date, event_owner_id)
 VALUES
     ('300f6ca9-940e-455c-b54e-6ab415cb405e',
      'A fun late night dinner party with friends; wine and music.',
      '2022-12-12',
      '1 Dinner party with friends!',
-     'EURB Zurich', 10, '2022-12-12', 'ba804cb9-fa14-42a5-afaf-be488742fc54'),
+     'EURB Zurich', '2022-12-12', 'ba804cb9-fa14-42a5-afaf-be488742fc54'),
     ('d1cc3232-9e80-4c0d-87c9-e2c36ae8a3c2',
      'Another one fun late night dinner party with friends; wine and music.',
      '2022-12-13',
      '2 Dinner party with friends!',
-     'EURB Zurich', 10, '2022-12-13', 'ba804cb9-fa14-42a5-afaf-be488742fc54'),
+     'EURB Zurich', '2022-12-13', 'ba804cb9-fa14-42a5-afaf-be488742fc54'),
     ('9a877790-09fa-4f5c-bd99-05726b210938',
      'Last but not least :) A fun late night dinner party with friends; wine and music.',
      '2022-12-14',
      '3 Dinner party with friends!',
-     'EURB Zurich', 10, '2022-12-14', 'ba804cb9-fa14-42a5-afaf-be488742fc54');
+     'EURB Zurich', '2022-12-14', 'ba804cb9-fa14-42a5-afaf-be488742fc54');
 
 INSERT INTO
     event_user (event_id, user_id, id)
