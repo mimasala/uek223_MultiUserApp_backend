@@ -62,6 +62,12 @@ public class UserCommandServiceImpl extends AbstractCommandServiceImpl<User> imp
         if(toUpdateUser.isEmpty()) {
             throw new NoSuchElementException("Unable to find the provided user. Use the POST endpoint to create one.");
         }
+
+        if(fromDTO.getRoles() == null) {
+            fromDTO.setRoles(fromDTO.getRoles());
+        }
+
+        fromDTO.setId(toUpdateUser.get().getId());
         fromDTO.setPassword(toUpdateUser.get().getPassword()); //Don't set password to null.
         return repository.save(fromDTO);
     }

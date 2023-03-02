@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -55,10 +56,14 @@ public class EventQueryService extends AbstractQueryServiceImpl<Event> {
                 .orElseThrow(() -> new EventNotFoundException("event with id: " + id + " not found"));
     }
 
-    public double getPageCount(Integer pageLength) {
+    public double getPageCount(Integer pageLength, Principal principal) {
         if (pageLength == 0) {
             return 1;
         }
-        return Math.ceil(repository.count() / (float) pageLength);
+
+        UUID userId = userQueryService.findByEmail(principal.getName()).getId();
+
+        return Math.ceil(((EventRepository) repository)
+                .countByEventOwner_IdNotIn(List.of(userId)) / (float) pageLength);
     }
 }

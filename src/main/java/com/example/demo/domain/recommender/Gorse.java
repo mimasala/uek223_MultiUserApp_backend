@@ -67,7 +67,7 @@ public class Gorse {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("n", String.valueOf(pageLength));
         parameters.put("offset", String.valueOf(pageLength * page + initialOffset));
-        log.info(String.format("Sending request to gorse with parameters: n(%d) offset(%d)", pageLength, pageLength * page + initialOffset));
+        log.info(String.format("Sending request to gorse with parameters: n(%d) offset(%s)", pageLength, parameters.get("offset")));
         return List.of(this.request("GET", this.endpoint + "/api/recommend/" + userId, null, String[].class, parameters));
     }
 
