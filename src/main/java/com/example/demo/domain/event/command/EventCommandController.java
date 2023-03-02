@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.UUID;
 
 @RestController
@@ -28,12 +29,12 @@ public class EventCommandController {
 
     @PostMapping
     @Operation(summary = "Create event")
-    public ResponseEntity<EventDTO> createEvent(@Valid @RequestBody EventDTO eventDTO) {
+    public ResponseEntity<EventDTO> createEvent(@Valid @RequestBody EventDTO eventDTO, Principal principal) {
         log.info("Creating new event.");
         return ResponseEntity
                 .ok()
                 .body(eventMapper.toDTO(eventCommandService
-                        .createEvent(eventMapper.fromDTO(eventDTO))));
+                        .createEvent(eventMapper.fromDTO(eventDTO), principal)));
     }
 
     @PutMapping("/{eventId}")

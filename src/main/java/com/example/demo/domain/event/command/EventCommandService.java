@@ -4,11 +4,13 @@ import com.example.demo.domain.event.Event;
 import com.example.demo.domain.event.EventRepository;
 import com.example.demo.domain.event.asyncEvents.EventCreatedMessage;
 import com.example.demo.domain.eventUser.EventUserRepository;
+import com.example.demo.domain.user.query.UserQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,12 +19,14 @@ import java.util.UUID;
 public class EventCommandService {
     private final EventRepository eventRepository;
     private final EventUserRepository eventUserRepository;
+    private final UserQueryService userQueryService;
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
-    public EventCommandService(EventRepository eventRepository, EventUserRepository eventUserRepository, ApplicationEventPublisher applicationEventPublisher) {
+    public EventCommandService(EventRepository eventRepository, EventUserRepository eventUserRepository, UserQueryService userQueryService, ApplicationEventPublisher applicationEventPublisher) {
         this.eventRepository = eventRepository;
         this.eventUserRepository = eventUserRepository;
+        this.userQueryService = userQueryService;
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
@@ -33,8 +37,9 @@ public class EventCommandService {
 
     }
 
-    public Event createEvent(Event fromDTO) {
+    public Event createEvent(Event fromDTO, Principal principal) {
         publishEventCreationEvent(fromDTO);
+        fromDTO.setId(userQueryService.findByEmail(principal.getName()).getId());
         return eventRepository.save(fromDTO);
     }
 

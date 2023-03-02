@@ -29,7 +29,7 @@ public class UserPermissionEvaluator {
     }
 
     public boolean isUser(User principal, Optional<UUID> uuid) {
-        return uuid.isPresent() || principal.getId().equals(uuid);
+        return uuid.isEmpty() || principal.getId().equals(uuid);
     }
 
 
