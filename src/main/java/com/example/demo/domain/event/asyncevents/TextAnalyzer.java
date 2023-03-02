@@ -1,4 +1,4 @@
-package com.example.demo.domain.event.asyncEvents;
+package com.example.demo.domain.event.asyncevents;
 
 import com.example.demo.core.exception.OpenAIResponseUnprocessableException;
 import com.theokanning.openai.completion.CompletionChoice;

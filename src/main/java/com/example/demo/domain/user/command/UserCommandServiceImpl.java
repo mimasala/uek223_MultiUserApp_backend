@@ -2,7 +2,7 @@ package com.example.demo.domain.user.command;
 
 import com.example.demo.core.generic.AbstractCommandServiceImpl;
 import com.example.demo.domain.event.EventRepository;
-import com.example.demo.domain.eventUser.EventUserRepository;
+import com.example.demo.domain.eventuser.EventUserRepository;
 import com.example.demo.domain.recommender.Gorse;
 import com.example.demo.domain.user.User;
 import com.example.demo.domain.user.UserRepository;

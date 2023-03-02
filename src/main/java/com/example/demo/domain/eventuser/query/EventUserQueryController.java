@@ -1,4 +1,4 @@
-package com.example.demo.domain.eventUser.query;
+package com.example.demo.domain.eventuser.query;
 
 import com.example.demo.core.adapter.LocalDateTimeAdapter;
 import com.example.demo.domain.event.Event;
@@ -63,15 +63,7 @@ public class EventUserQueryController {
                                                             @RequestParam("pageLength") int pageLength,
                                                             Principal requester) {
         User user = userQueryService.findByEmail(requester.getName());
-        boolean isUserAllowedToPerformRequest = eventUserQueryService.isUserAllowedToGetEventParticipants(eventId, user);
         log.info(String.format("Getting all participants for event(%s). Request started by userId(%s)", eventId.toString(), user.getUserId().toString()));
-
-
-        if (!isUserAllowedToPerformRequest) {
-            log.error("Illegal participants list request by user: " + user.getUserId());
-            return ResponseEntity.status(403)
-                    .body("User doesn't meet any of the following criteria: 1) User is admin 2) User isn't event owner");
-        }
 
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()

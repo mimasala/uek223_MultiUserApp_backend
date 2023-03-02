@@ -1,10 +1,10 @@
-package com.example.demo.domain.eventUser.query;
+package com.example.demo.domain.eventuser.query;
 
 import com.example.demo.core.generic.AbstractQueryServiceImpl;
 import com.example.demo.domain.event.Event;
 import com.example.demo.domain.event.EventRepository;
-import com.example.demo.domain.eventUser.EventUser;
-import com.example.demo.domain.eventUser.EventUserRepository;
+import com.example.demo.domain.eventuser.EventUser;
+import com.example.demo.domain.eventuser.EventUserRepository;
 import com.example.demo.domain.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -50,16 +50,6 @@ public class EventUserQueryService extends AbstractQueryServiceImpl<EventUser> {
                 .filter(role -> role.getName().equals(roleName))
                 .toList()
                 .isEmpty();
-    }
-
-    public boolean isUserAllowedToGetEventParticipants(UUID eventId, User user) {
-        Event event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new NoSuchElementException("Unable to find event with id: " + eventId));
-
-        if (event.getEventOwner().getId().equals(user.getUserId())) {
-            return true;
-        }
-        return areAnyUserRoles("ADMIN", user);
     }
 
     public List<User> getAllParticipantsOfEvent(UUID eventId, int page, int pageLength) {

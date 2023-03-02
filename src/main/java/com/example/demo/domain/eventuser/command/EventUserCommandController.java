@@ -1,11 +1,11 @@
-package com.example.demo.domain.eventUser.command;
+package com.example.demo.domain.eventuser.command;
 
 import com.example.demo.core.adapter.LocalDateTimeAdapter;
 import com.example.demo.core.exception.NotCheckedException;
 import com.example.demo.core.generic.StatusOr;
 import com.example.demo.domain.event.dto.EventDTO;
 import com.example.demo.domain.event.dto.EventMapper;
-import com.example.demo.domain.eventUser.EventUser;
+import com.example.demo.domain.eventuser.EventUser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.swagger.v3.oas.annotations.Operation;

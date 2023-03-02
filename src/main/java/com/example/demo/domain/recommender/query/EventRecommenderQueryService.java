@@ -4,7 +4,7 @@ package com.example.demo.domain.recommender.query;
 import com.example.demo.core.redis.JedisPoolWrapper;
 import com.example.demo.domain.event.Event;
 import com.example.demo.domain.event.EventRepository;
-import com.example.demo.domain.eventUser.EventUserRepository;
+import com.example.demo.domain.eventuser.EventUserRepository;
 import com.example.demo.domain.recommender.EventRecommendation;
 import com.example.demo.domain.recommender.Gorse;
 import lombok.extern.log4j.Log4j2;

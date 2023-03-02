@@ -1,4 +1,4 @@
-package com.example.demo.domain.eventUser;
+package com.example.demo.domain.eventuser;
 
 import com.example.demo.core.generic.AbstractEntity;
 import com.example.demo.domain.event.Event;

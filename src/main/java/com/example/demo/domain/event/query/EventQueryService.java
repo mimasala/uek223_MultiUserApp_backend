@@ -5,7 +5,6 @@ import com.example.demo.core.exception.EventNotFoundException;
 import com.example.demo.core.generic.AbstractQueryServiceImpl;
 import com.example.demo.domain.event.Event;
 import com.example.demo.domain.event.EventRepository;
-import com.example.demo.domain.eventUser.EventUserRepository;
 import com.example.demo.domain.recommender.Gorse;
 import com.example.demo.domain.user.query.UserQueryService;
 import io.gorse.gorse4j.Feedback;
@@ -24,15 +23,13 @@ import java.util.UUID;
 @Log4j2
 public class EventQueryService extends AbstractQueryServiceImpl<Event> {
     private final Gorse client;
-    private final EventUserRepository eventUserRepository;
 
     private final UserQueryService userQueryService;
 
     @Autowired
-    public EventQueryService(EventRepository repository, Gorse client, EventUserRepository eventUserRepository, UserQueryService userQueryService) {
+    public EventQueryService(EventRepository repository, Gorse client, UserQueryService userQueryService) {
         super(repository);
         this.client = client;
-        this.eventUserRepository = eventUserRepository;
         this.userQueryService = userQueryService;
     }
 

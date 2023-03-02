@@ -1,12 +1,12 @@
-package com.example.demo.domain.eventUser.command;
+package com.example.demo.domain.eventuser.command;
 
 import com.example.demo.core.generic.AbstractCommandServiceImpl;
 import com.example.demo.core.generic.StatusOr;
 import com.example.demo.domain.event.Event;
 import com.example.demo.domain.event.EventRepository;
 import com.example.demo.domain.event.query.EventQueryService;
-import com.example.demo.domain.eventUser.EventUser;
-import com.example.demo.domain.eventUser.EventUserRepository;
+import com.example.demo.domain.eventuser.EventUser;
+import com.example.demo.domain.eventuser.EventUserRepository;
 import com.example.demo.domain.recommender.Gorse;
 import com.example.demo.domain.user.User;
 import com.example.demo.domain.user.UserRepository;

@@ -16,6 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This file has been copyd from gorse.io. The linter issues are not a point of concern, since they are usually hidden
+ * behind a gradle project :)
+ */
 @Log4j2
 public class Gorse {
 

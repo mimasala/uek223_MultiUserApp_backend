@@ -2,8 +2,8 @@ package com.example.demo.domain.event.command;
 
 import com.example.demo.domain.event.Event;
 import com.example.demo.domain.event.EventRepository;
-import com.example.demo.domain.event.asyncEvents.EventCreatedMessage;
-import com.example.demo.domain.eventUser.EventUserRepository;
+import com.example.demo.domain.event.asyncevents.EventCreatedMessage;
+import com.example.demo.domain.eventuser.EventUserRepository;
 import com.example.demo.domain.user.query.UserQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
