@@ -59,7 +59,12 @@ VALUES
      'Last but not least :) A fun late night dinner party with friends; wine and music.',
      '2022-12-14',
      '3 Dinner party with friends!',
-     'EURB Zurich', '2022-12-14', 'ba804cb9-fa14-42a5-afaf-be488742fc54');
+     'EURB Zurich', '2022-12-14', 'ba804cb9-fa14-42a5-afaf-be488742fc54'),
+    ('76e57334-5547-4024-b4ee-db19bee7779b',
+     'Last but not least :) A fun late night dinner party with friends; wine and music.',
+     '2022-12-14',
+     '3 Dinner party with friends!',
+     'EURB Zurich', '2022-12-14', '0d8fa44c-54fd-4cd0-ace9-2a7da57992de');
 
 INSERT INTO
     event_user (event_id, user_id, id)
