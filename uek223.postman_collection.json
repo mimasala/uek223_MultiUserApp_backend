@@ -1,0 +1,1946 @@
+{
+	"info": {
+		"_postman_id": "f3453521-da05-4bdf-bf4d-bc1c0c7b0193",
+		"name": "uek223",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17447072"
+	},
+	"item": [
+		{
+			"name": "user-actions",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "get user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_user}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/user/{{id_user}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"user",
+										"{{id_user}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_user}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/user/{{id_user}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"user",
+										"{{id_user}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all users Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_user}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/user/roles",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"user",
+										"roles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_user}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\":\"Danny\",\r\n    \"lastName\":\"{{$randomLastName}}\",\r\n    \"email\":\"{{$randomEmail}}\",\r\n    \"password\":\"{{password_user}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/user/{{id_user}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"user",
+										"{{id_user}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "register",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"email_user\", pm.response.json().email)\r",
+											"pm.collectionVariables.set(\"id_user\", pm.response.json().id)\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"// pm.test(\"Your test name\", function () {\r",
+											"//     var jsonData = pm.response.json();\r",
+											"//     pm.expect(jsonData.value).to.eql(100);\r",
+											"// });"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\":\"{{$randomFirstName}}\",\r\n    \"lastName\":\"{{$randomLastName}}\",\r\n    \"email\":\"{{$randomEmail}}\",\r\n    \"password\":\"{{password_user}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/user/register",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"jwt_user\", pm.response.headers.get(\"Authorization\"));\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"{{email_user}}\",\r\n    \"password\":\"{{password_user}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/user/login",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "event",
+					"item": [
+						{
+							"name": "create random event",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.collectionVariables.set(\"eventId\", pm.response.json().id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_user}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"eventName\":\"{{$randomCatchPhrase}}\",\r\n    \"participantsLimit\":\"12\",\r\n    \"startDate\":\"2022-12-12T00:00:00\",\r\n    \"endDate\":\"2022-12-12T00:00:00\",\r\n    \"location\":\"{{$randomCity}}\",\r\n    \"description\":\"{{$randomLoremSentence}}\",\r\n    \"eventOwner\":{\r\n        \"id\": \"{{id_user}}\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/event",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"event"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all events",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_user}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/event",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"event"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get event by id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_user}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/event/300f6ca9-940e-455c-b54e-6ab415cb405e",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"event",
+										"300f6ca9-940e-455c-b54e-6ab415cb405e"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit event",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_user}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"eventName\": \"{{$randomPhrase}} changed event name hahahahahahahahahahahahahahahahahah\",\r\n    \"numberOfCurrentParticipants\": null,\r\n    \"participantsLimit\": 10,\r\n    \"startDate\": \"2022-12-12T00:00:00\",\r\n    \"endDate\": \"2022-12-12T00:00:00\",\r\n    \"location\": \"EURB Zurich\",\r\n    \"description\": \"A fun late night dinner party with friends; wine and music.\",\r\n    \"eventOwner\": {\r\n        \"id\": \"ba804cb9-fa14-42a5-afaf-be488742fc54\",\r\n        \"firstName\": \"James\",\r\n        \"lastName\": \"Bond\",\r\n        \"email\": \"admin@example.com\",\r\n        \"roles\": [\r\n            {\r\n                \"id\": \"d29e709c-0ff1-4f4c-a7ef-09f656c390f1\",\r\n                \"name\": \"DEFAULT\",\r\n                \"authorities\": [\r\n                    {\r\n                        \"id\": \"2ebf301e-6c61-4076-98e3-2a38b31daf86\",\r\n                        \"name\": \"DEFAULT\"\r\n                    }\r\n                ]\r\n            },\r\n            {\r\n                \"id\": \"ab505c92-7280-49fd-a7de-258e618df074\",\r\n                \"name\": \"USER_MODIFY\",\r\n                \"authorities\": [\r\n                    {\r\n                        \"id\": \"76d2cbf6-5845-470e-ad5f-2edb9e09a868\",\r\n                        \"name\": \"USER_MODIFY\"\r\n                    }\r\n                ]\r\n            },\r\n            {\r\n                \"id\": \"c6aee32d-8c35-4481-8b3e-a876a39b0c02\",\r\n                \"name\": \"USER_DELETE\",\r\n                \"authorities\": [\r\n                    {\r\n                        \"id\": \"21c942db-a275-43f8-bdd6-d048c21bf5ab\",\r\n                        \"name\": \"USER_DELETE\"\r\n                    }\r\n                ]\r\n            }\r\n        ]\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/event/{{eventId}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"event",
+										"{{eventId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get number of pages",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_user}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/event/pageCount/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"event",
+										"pageCount",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create event",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"eventId\", pm.response.json().id)\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_user}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"eventName\":\"{{$randomCatchPhrase}}\",\r\n    \"numberOfCurrentParticipants\":\"10\",\r\n    \"participantsLimit\":\"12\",\r\n    \"startDate\":\"2022-12-12T00:00:00\",\r\n    \"endDate\":\"2022-12-12T00:00:00\",\r\n    \"location\":\"{{$randomCity}}\",\r\n    \"description\":\"{{$randomLoremSentence}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/event",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"event"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "eventuser",
+					"item": [
+						{
+							"name": "enroll user to event",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_user}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/eventUser?user_id={{id_user}}&event_id={{eventId}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"eventUser"
+									],
+									"query": [
+										{
+											"key": "user_id",
+											"value": "{{id_user}}"
+										},
+										{
+											"key": "event_id",
+											"value": "{{eventId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create many eventUser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_user}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    \"{{userId}}\"\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/eventUser/{{eventId}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"eventUser",
+										"{{eventId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get events for user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_user}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/eventUser/{{id_user}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"eventUser",
+										"{{id_user}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all participants in an event",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_user}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/eventUser/event/{{eventId}}?page=1&pageLength=3",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"eventUser",
+										"event",
+										"{{eventId}}"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pageLength",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "recommender",
+					"item": [
+						{
+							"name": "get recommendations for user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_user}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/recommendation/{{userId}}?page=0&pageLength=999",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"recommendation",
+										"{{userId}}"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "pageLength",
+											"value": "999"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "delete enrollment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/eventUser?user_id={{id_user}}&event_id={{eventId}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"eventUser"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "{{id_user}}"
+								},
+								{
+									"key": "event_id",
+									"value": "{{eventId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete event",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/event/{{eventId}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"event",
+								"{{eventId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/user/{{id_user}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"{{id_user}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin-actions",
+			"item": [
+				{
+					"name": "login admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"jwt\", pm.response.headers.get(\"Authorization\").replace(\"Bearer \", \"\"));",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"admin@example.com\",\r\n    \"password\":\"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create random event",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.collectionVariables.set(\"eventId\", pm.response.json().id);",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"testGen\"); //sets event name",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"2022-12-12T00:00:00\"); //start date",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"eventName\":\"testGen\",\r\n    \"numberOfCurrentParticipants\":\"10\",\r\n    \"participantsLimit\":\"12\",\r\n    \"startDate\":\"2022-12-12T00:00:00\",\r\n    \"endDate\":\"2022-12-12T00:00:00\",\r\n    \"location\":\"{{$randomCity}}\",\r\n    \"description\":\"{{$randomLoremSentence}}\",\r\n    \"eventOwner\":{\r\n        \"id\": \"ba804cb9-fa14-42a5-afaf-be488742fc54\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/event",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create normal user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.collectionVariables.set(\"userId\", pm.response.json().id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\":\"{{$randomFirstName}}\",\n    \"lastName\":\"{{$randomLastName}}\",\n    \"email\":\"{{$randomEmail}}\",\n    \"password\":\"{{password_user}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user/register",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create eventUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"//Contains fields",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"user\");",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"event\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/eventUser?user_id={{userId}}&event_id={{eventId}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"eventUser"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "{{userId}}"
+								},
+								{
+									"key": "event_id",
+									"value": "{{eventId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"//Contains fields",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"firstName\");",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"lastName\");",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"email\");",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"roles\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/{{userId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get page count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"4.0\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/event/pageCount/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"event",
+								"pageCount",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users of event",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"firstName\");",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"lastName\");",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"email\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/eventUser/event/{{eventId}}?page=0&pageLength=999",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"eventUser",
+								"event",
+								"{{eventId}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "pageLength",
+									"value": "999"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "recommended Events",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"eventName\");",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"imageUrl\");",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"eventId\");",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"currentUserEnrolled\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/recommendation/ba804cb9-fa14-42a5-afaf-be488742fc54?page=0&pageLength=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"recommendation",
+								"ba804cb9-fa14-42a5-afaf-be488742fc54"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "pageLength",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"id\");",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"firstName\");",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"lastName\");",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"email\");",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"roles\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/user",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all roles present",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"id\");",
+									"});",
+									"",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"authorities\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/user/roles",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all events",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/event",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get event by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/event/{{eventId}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"event",
+								"{{eventId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update event",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"testGen_test\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"eventName\":\"testGen_test\",\n    \"numberOfCurrentParticipants\":\"10\",\n    \"participantsLimit\":\"12\",\n    \"startDate\":\"2022-12-12T00:00:00\",\n    \"endDate\":\"2022-12-12T00:00:00\",\n    \"location\":\"{{$randomCity}}\",\n    \"description\":\"{{$randomLoremSentence}}\",\n    \"eventOwner\":{\n        \"id\": \"ba804cb9-fa14-42a5-afaf-be488742fc54\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/event/{{eventId}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"event",
+								"{{eventId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete event user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/eventUser?user_id={{userId}}&event_id={{eventId}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"eventUser"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "{{userId}}"
+								},
+								{
+									"key": "event_id",
+									"value": "{{eventId}}"
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete event by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/event/{{eventId}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"event",
+								"{{eventId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Danny\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\":\"Danny\",\n    \"lastName\":\"{{$randomLastName}}\",\n    \"email\":\"{{$randomEmail}}\",\n    \"password\":\"{{password_user}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user/{{userId}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/user/{{userId}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Events of user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/eventUser/{{userId}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"eventUser",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "jwt",
+			"value": "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6W10sInN1YiI6ImUyZmM5Yzc1LWViNjMtNGI0Ny05MjkyLTU3MWZhYWM4OTg0YyIsImlhdCI6MTY3NzE2MzQyOCwiZXhwIjoxNjc3MjYzNDI4LCJpc3MiOiJ1azIyMyJ9.axuM-fmYoUiKvwBtqHycVhSBQ_NohAl5d5UNPUC94Ps"
+		},
+		{
+			"key": "password_user",
+			"value": "sladkjslfkjasldklkjasdfd89u234u9edfkj",
+			"type": "string"
+		},
+		{
+			"key": "eventId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "email_user",
+			"value": ""
+		},
+		{
+			"key": "id_user",
+			"value": ""
+		},
+		{
+			"key": "jwt_user",
+			"value": ""
+		},
+		{
+			"key": "id_event",
+			"value": ""
+		}
+	]
+}
