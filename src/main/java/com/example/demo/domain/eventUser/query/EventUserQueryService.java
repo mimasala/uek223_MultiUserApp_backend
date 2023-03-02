@@ -6,7 +6,6 @@ import com.example.demo.domain.event.EventRepository;
 import com.example.demo.domain.eventUser.EventUser;
 import com.example.demo.domain.eventUser.EventUserRepository;
 import com.example.demo.domain.user.User;
-import com.example.demo.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -57,7 +56,7 @@ public class EventUserQueryService extends AbstractQueryServiceImpl<EventUser> {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new NoSuchElementException("Unable to find event with id: " + eventId));
 
-        if (event.getEventOwner().getId() == user.getUserId()) {
+        if (event.getEventOwner().getId().equals(user.getUserId())) {
             return true;
         }
         return areAnyUserRoles("ADMIN", user);
