@@ -30,7 +30,7 @@ public class EventQueryController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN_READ') || (@userPermissionEvaluator.isUser(authentication.principal.user, #userId))")
+    @PreAuthorize("hasAuthority('ADMIN_READ') || (@userPermissionEvaluator.isUser(authentication.principal.user, #user_id))")
     @Operation(summary = "Get all events")
     public ResponseEntity<List<EventDTO>> getEvents(@RequestParam(value = "user_id", required = false) Optional<UUID> userId) {
         userId.ifPresentOrElse(uuid -> log.info("Getting all events for user: " + uuid),
