@@ -64,7 +64,7 @@ jobs:
           source: ./docker-compose.yaml
           target: /home/mischa/docker-compose.yaml
       - name: run docker compose
-        command: docker-compose up -d
+        run: docker-compose up -d
 
 #  static-check:
 #    runs-on: ubuntu-latest
