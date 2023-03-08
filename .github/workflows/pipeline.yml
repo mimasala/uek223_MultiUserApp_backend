@@ -16,6 +16,6 @@ jobs:
         with:
           host: 185.229.90.245
           username: mischa
-          password: $ckaCV!C686A
+          password: mischasch
           port: 22
           script: echo “Hello World”
