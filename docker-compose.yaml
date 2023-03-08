@@ -13,7 +13,7 @@ services:
     image: mimasala/uek223-extended_frontend:latest
     container_name: frontend
     depends_on:
-      - backend
+      - backendMischa
     ports:
       - "3000:80"
   backendMischa:
