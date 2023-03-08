@@ -1,11 +1,11 @@
 version: "3"
 
 networks:
-  mischa_backend:
+  mischaBackend:
     name: mischa_backend
 
 services:
-  frontend_mischa:
+  frontendMischa:
     mem_limit: 128m
     cpus: 0.1
 
@@ -16,7 +16,7 @@ services:
       - backend
     ports:
       - "3000:80"
-  backend_mischa:
+  backendMischa:
     mem_limit: 128m
     cpus: 0.1
 
@@ -26,13 +26,13 @@ services:
     ports:
       - "8080:8080"
 
-  redis_mischa:
+  redisMischa:
     image: redis
     restart: unless-stopped
     ports:
       - "6379:6379"
 
-  postgres_mischa:
+  postgresMischa:
     image: postgres
     restart: always
     environment:
@@ -42,7 +42,7 @@ services:
       - '5432:5432'
     volumes:
       - db_postgres:/var/lib/postgresql/data
-  gorse_mischa:
+  gorseMischa:
     image: zhenghaoz/gorse-in-one
     restart: unless-stopped
     ports:
@@ -65,5 +65,5 @@ services:
       - postgres
 
 volumes:
-    db_postgres_mischa:
+    db-postgres-mischa:
       driver: local
