@@ -14,7 +14,7 @@ jobs:
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
-          host: mischa.dev.noseryoung.ch
+          host: 185.229.90.245
           username: mischa
           password: $ckaCV!C686A
           port: 22
