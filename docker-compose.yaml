@@ -60,8 +60,8 @@ services:
       # Mount the configuration file.
       - ./config.toml:/etc/gorse/config.toml
     depends_on:
-      - redis
-      - postgres
+      - redisMischa
+      - postgresMischa
 
 volumes:
     db-postgres-mischa:
