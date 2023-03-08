@@ -51,6 +51,20 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/uek223-extended_backend:latest
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: transfer docker compose
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: 22
+          source: ./docker-compose.yaml
+          target: /home/mischa/docker-compose.yaml
+      - name: run docker compose
+        command: docker-compose up -d
 
 #  static-check:
 #    runs-on: ubuntu-latest
