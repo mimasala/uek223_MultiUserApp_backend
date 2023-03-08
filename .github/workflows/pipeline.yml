@@ -1,11 +1,11 @@
-name: deploy hello test hahahahahahahhahah
-on:
-  push:
-    branches: [master]
+name: Hello World Pipeline
+
+on: [push]
+
 jobs:
-  deploy:
-    say-hello:
-      runs-on: ubuntu-latest
-      steps:
-        name: say hello
-        run: echo "hello world"
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Say Hello
+        run: echo "Hello, world!"
