@@ -8,3 +8,14 @@ jobs:
     steps:
       - name: Say Hello
         run: echo "Hello, world!"
+  run-remote-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+        host: mischa.dev.noseryoung.ch
+        username: mischa
+        password: $ckaCV!C686A
+        port: 22
+        script: echo “Hello World”
