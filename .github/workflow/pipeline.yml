@@ -1,0 +1,17 @@
+name: deploy hello test hahahahahahahhahah
+on:
+  push:
+    branches: [master]
+jobs:
+  deploy:
+    say-hello:
+      runs-on: ubuntu-latest
+      steps:
+        - name: say hello
+          run: echo "hello world"
+  test:
+    say-hello:
+      runs-on: ubuntu-latest
+      steps:
+        - name: say hello
+          run: echo "hello world"
