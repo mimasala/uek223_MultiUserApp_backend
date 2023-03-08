@@ -19,3 +19,11 @@ jobs:
           password: mischasch
           port: 22
           script: echo “Hello World”
+  static-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: run sonarqube
+        run: |
+          ./gradlew sonarqube --info -Dsonar.projectKey=uk223
+          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
