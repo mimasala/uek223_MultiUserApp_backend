@@ -22,7 +22,6 @@ services:
 
     restart: unless-stopped
     image: mimasala/uek223-extended_backend:latest
-    container_name: backend
     ports:
       - "8080:8080"
 
