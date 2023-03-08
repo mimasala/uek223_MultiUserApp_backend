@@ -64,7 +64,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 22
           source: ./docker-compose.yaml
-          target: /home/mischa/docker-compose.yaml
+          target: /home/mischa/
       - name: run docker compose
         run: docker-compose up -d
 
