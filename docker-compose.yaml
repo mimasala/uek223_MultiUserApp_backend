@@ -15,7 +15,7 @@ services:
     depends_on:
       - backendMischa
     ports:
-      - "3000:80"
+      - "8010:80"
   backendMischa:
     mem_limit: 128m
     cpus: 0.1
@@ -23,13 +23,13 @@ services:
     restart: unless-stopped
     image: mimasala/uek223-extended_backend:latest
     ports:
-      - "8080:8080"
+      - "8095:8080"
 
   redisMischa:
     image: redis
     restart: unless-stopped
     ports:
-      - "6379:6379"
+      - "6379"
 
   postgresMischa:
     image: postgres
@@ -45,8 +45,8 @@ services:
     image: zhenghaoz/gorse-in-one
     restart: unless-stopped
     ports:
-      - "8086:8086"   # gRPC port
-      - "8088:8088"   # HTTP port
+      - "8086"   # gRPC port
+      - "8088"   # HTTP port
     environment:
       # Use Redis as cache storage backend.
       GORSE_CACHE_STORE: redis://redis:6379
