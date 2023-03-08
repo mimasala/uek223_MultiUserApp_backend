@@ -11,7 +11,7 @@ services:
 
     restart: unless-stopped
     image: mimasala/uek223-extended_frontend:latest
-    container_name: frontend
+    container_name: frontendMischa
     depends_on:
       - backendMischa
     ports:
