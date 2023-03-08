@@ -4,8 +4,8 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Say Hello
-        run: echo "Hello, world!"
+    say-hello:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Say Hello
+          run: echo "Hello, world!"
