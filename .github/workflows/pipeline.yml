@@ -72,8 +72,9 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: 22
-          script: docker compose up -d --remove-orphans
-
+          script: |
+            docker compose down -rmi all
+            docker compose up -d --remove-orphans
 #  static-check:
 #    runs-on: ubuntu-latest
 #    steps:
