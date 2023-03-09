@@ -82,7 +82,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 22
           script: |
-            docker compose down -rmi all
+            docker compose pull
             docker compose up -d --remove-orphans
 #  static-check:
 #    runs-on: ubuntu-latest
