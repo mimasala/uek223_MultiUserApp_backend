@@ -243,7 +243,7 @@ enable_tracing = false
 exporter = "jaeger"
 
 # The endpoint of tracing collector.
-collector_endpoint = "http://localhost:14268/api/traces"
+collector_endpoint = "http://gorseMischa:14268/api/traces"
 
 # The type of tracing sampler should be one of "always", "never" and "ratio". The default value is "always".
 sampler = "always"
