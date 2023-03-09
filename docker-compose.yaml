@@ -1,13 +1,7 @@
 version: "3"
 
-networks:
-  mischaBackend:
-    name: mischa_backend
-
 services:
   frontendMischa:
-    mem_limit: 128m
-    cpus: 0.1
 
     restart: unless-stopped
     image: mimasala/uek223-extended_frontend:latest
@@ -17,8 +11,6 @@ services:
     ports:
       - "8010:80"
   backendMischa:
-    mem_limit: 128m
-    cpus: 0.1
 
     restart: unless-stopped
     image: mimasala/uek223-extended_backend:latest
