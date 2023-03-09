@@ -49,7 +49,7 @@ services:
       - "8088"   # HTTP port
     environment:
       # Use Redis as cache storage backend.
-      GORSE_CACHE_STORE: redis://redis:6379
+      GORSE_CACHE_STORE: redis://redisMischa:6379
       # Use MySQL as data storage backend.
       GORSE_DATA_STORE: postgres://postgres:postgres@postgresMischa:5432/postgres?sslmode=disable
     command: >
